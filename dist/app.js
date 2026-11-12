@@ -1,6 +1,7 @@
 import { AudioEngine } from './audio.js';
 import { Renderer } from './renderer.js';
 import { StudioController } from './controller.js';
+import { styleRegistry } from './styles/index.js';
 
 const $ = id => document.getElementById(id);
 const audio = new AudioEngine(), renderer = new Renderer($('canvas'));
@@ -17,6 +18,13 @@ function updateUI() {
   $('png').disabled = !studio.canSave;
   for (const id of ['theme', 'strength', 'trail']) $(id).disabled = studio.loading;
   document.querySelectorAll('[data-ratio]').forEach(button => button.disabled = studio.loading);
+  document.querySelectorAll('[data-style]').forEach(button => {
+    button.disabled = studio.loading;
+    const selected = renderer.settings.style === button.dataset.style;
+    if (button.getAttribute('aria-pressed') !== String(selected)) button.setAttribute('aria-pressed', String(selected));
+    const check = button.querySelector('.style-check');
+    if (check.textContent !== (selected ? '✓' : '')) check.textContent = selected ? '✓' : '';
+  });
   $('cancel-load').hidden = !studio.loading;
   $('drop').setAttribute('aria-busy', String(studio.loading));
   text('filename', studio.name || '楽曲をドロップ / 選択');
@@ -53,6 +61,17 @@ $('seek').onpointerdown = () => { scrubbing = true; };
 window.addEventListener('pointerup', () => { scrubbing = false; });
 $('seek').onpointercancel = $('seek').onblur = () => { scrubbing = false; };
 $('seek').onchange = () => { scrubbing = false; studio.seek(Number($('seek').value)); };
+for (const definition of Object.values(styleRegistry)) {
+  const button = document.createElement('button'); button.className = 'style-card';
+  button.dataset.style = definition.id; button.setAttribute('aria-label', definition.label);
+  const symbol = document.createElement('span'); symbol.className = 'curve'; symbol.textContent = definition.symbol;
+  symbol.setAttribute('aria-hidden', 'true');
+  const content = document.createElement('div'), name = document.createElement('strong'), description = document.createElement('small');
+  name.textContent = definition.label; description.textContent = definition.description; content.append(name, description);
+  const check = document.createElement('b'); check.className = 'style-check'; check.setAttribute('aria-hidden', 'true');
+  button.append(symbol, content, check); button.onclick = () => studio.configure({ style: definition.id });
+  $('styles').append(button);
+}
 for (const id of ['theme', 'trail', 'strength']) {
   $(id).onchange = () => {
     $('strength-value').value = $('strength').value + '%';

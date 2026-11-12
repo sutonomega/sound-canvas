@@ -33,6 +33,7 @@ jobs:
           node --check dist/themes.js
           node --check dist/styles/index.js
           node --check dist/styles/organic.js
+          node --check dist/styles/geometric.js
       - name: Check analysis, playback and rendering
         run: node --test tests/*.test.mjs
       - uses: actions/configure-pages@v5
