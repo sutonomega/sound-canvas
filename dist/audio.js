@@ -28,7 +28,7 @@ export class AudioEngine {
   get time() {
     if (!this.buffer) return 0;
     return Math.min(this.buffer.duration, this.playing
-      ? this.offset + this.context.currentTime - this.started : this.offset);
+      ? this.offset + (this.context.currentTime - this.started) : this.offset);
   }
 
   pause() { this.offset = this.time; this.stop(); }

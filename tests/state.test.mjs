@@ -281,3 +281,25 @@ test('rejected settings during restore do not resume audio before the valid rest
   assert.equal(audio.playing, false); assert.equal(studio.restoring, true); gate.resolve(); await pending;
   assert.equal(audio.playing, true); assert.equal(renderer.frame, 150);
 });
+
+test('a large drawing delay catches up in bounded batches without skipping or duplicating features', async () => {
+  const { studio, audio, renderer } = fixture(); await studio.load(async () => track(1, 20), 'song'); await studio.togglePlay();
+  audio.context.currentTime = 10.113;
+  studio.tick(); assert.equal(renderer.frame, 90); assert.equal(studio.canSave, false);
+  studio.tick(); assert.equal(renderer.frame, 180); studio.tick(); assert.equal(renderer.frame, 270);
+  studio.tick(); assert.equal(renderer.frame, 303); assert.equal(studio.canSave, true);
+  assert.deepEqual(renderer.frames.map(f => f.frame), Array.from({ length: 303 }, (_, i) => i));
+});
+test('a pause freezes the target while the audio clock advances and then resumes from the same frame', async () => {
+  const { studio, audio, renderer } = fixture(); await studio.load(async () => track(1, 20), 'song'); await studio.togglePlay();
+  audio.context.currentTime = 4.1; while (renderer.frame !== studio.target) studio.tick(); await studio.togglePlay();
+  assert.equal(renderer.frame, 123); audio.context.currentTime += 100; studio.tick(); assert.equal(renderer.frame, 123);
+  await studio.togglePlay(); audio.context.currentTime += 1; assert.equal(audio.time, 5.1); studio.tick(); assert.equal(renderer.frame, 153);
+  assert.deepEqual(renderer.frames.map(f => f.frame), Array.from({ length: 153 }, (_, i) => i));
+});
+test('aligned fractional song end is rendered once without an empty extra tick', async () => {
+  const { studio, audio, renderer } = fixture(); const duration = 31 / 30;
+  const candidate = track(1, duration); candidate.features = candidate.features.slice(0, 31);
+  await studio.load(async () => candidate, 'aligned'); await studio.seek(duration); studio.tick(); studio.tick();
+  assert.equal(renderer.frame, 31); assert.equal(audio.time, duration); assert.equal(studio.canSave, true);
+});

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { analyzeAudio, ANALYSIS_VERSION, ANALYSIS_SETTINGS } from '../dist/analysis.js';
 import { AudioEngine } from '../dist/audio.js';
+import { frameCount } from '../dist/timing.js';
 
 const options = { yieldTask: async () => {} };
 function pcm({ seconds = 2, sampleRate = 48000, channels = 1, sample = () => 0, length } = {}) {
@@ -16,7 +17,7 @@ const mean = (frames, key) => frames.reduce((sum, frame) => sum + frame[key], 0)
 function valid(analysis) {
   assert.equal(analysis.version, ANALYSIS_VERSION);
   assert.equal(analysis.featureRate, 30);
-  assert.equal(analysis.frames.length, Math.ceil(analysis.duration * 30));
+  assert.equal(analysis.frames.length, frameCount(analysis.duration, analysis.duration));
   for (const frame of analysis.frames) {
     assert.equal(typeof frame.beat, 'boolean');
     for (const key of ['volume', 'bass', 'mid', 'high', 'intensity']) {
@@ -205,4 +206,19 @@ test('AudioEngine commits the shared analysis once and reuses its feature object
   assert.equal(engine.features, candidate.analysis.frames);
   engine.setPosition(1);
   assert.equal(engine.feature(30), candidate.analysis.frames[30]);
+});
+
+test('analysis and rendering agree at a floating-point aligned end without an empty frame', async () => {
+  for (const sampleRate of [44100, 48000]) {
+    const buffer = pcm({ sampleRate, length: sampleRate / 30 * 31, sample: tone(1000) });
+    const analysis = await analyzeAudio(buffer, options);
+    assert.equal(analysis.frames.length, 31); assert.equal(frameCount(buffer.duration, buffer.duration), 31);
+    assert.ok(analysis.frames.at(-1).volume > 0);
+  }
+});
+test('one final audio sample beyond a tick remains a real partial frame', async () => {
+  const buffer = pcm({ sampleRate: 48000, length: 1600 * 31 + 1, sample: tone(500) });
+  const analysis = await analyzeAudio(buffer, options);
+  assert.equal(analysis.frames.length, 32); assert.equal(frameCount(buffer.duration, buffer.duration), 32);
+  assert.ok(Number.isFinite(analysis.frames.at(-1).volume));
 });
