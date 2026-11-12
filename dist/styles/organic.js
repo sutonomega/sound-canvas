@@ -2,6 +2,7 @@ import { palettes } from '../themes.js';
 
 export const organicStyle = Object.freeze({
   id: 'organic', version: 'organic-2',
+  label: '有機的な曲線', description: '音に寄り添う、なめらかな光の軌跡', symbol: '∿',
   create() {
     let width, height, scale, settings, randomState, phase, offsets;
     let travel = 0, detailCredit = 0, last = [], pulses = [];

@@ -22,7 +22,7 @@ function canvas(width = 36, height = 64, id = 'output') {
     getImageData() { return { width, height, data: pixels.slice() }; },
     createImageData(w, h) { return { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) }; },
     putImageData(image) { pixels = image.data.slice(); },
-    beginPath() {}, moveTo() {}, quadraticCurveTo() {}, stroke() {}, arc() {}, fill() {},
+    beginPath() {}, moveTo() {}, lineTo() {}, quadraticCurveTo() {}, stroke() {}, arc() {}, fill() {},
   };
   const resize = () => { pixels = new Uint8ClampedArray(width * height * 4); Object.assign(ctx, defaults); stack.length = 0; };
   return { id, get width() { return width; }, set width(value) { width = value; resize(); },

@@ -69,11 +69,12 @@ $('run').onclick = async () => {
     assert(before === 255 && after > 0 && after < 110, `${before}→${after}`); r.dispose();
   });
 
+  for (const style of Object.keys(styleRegistry)) {
   for (const [ratio, size] of [['9:16', [36, 64]], ['16:9', [64, 36]], ['1:1', [48, 48]]]) {
     for (const theme of ['aurora', 'ember', 'ocean']) {
       for (const trail of ['accumulate', 'fade']) {
-        await check(`${ratio} / ${theme} / ${trail}：復元と再計算の画素一致`, () => {
-          const r = create(size); r.configure({ theme, trail });
+        await check(`${style} / ${ratio} / ${theme} / ${trail}：復元と再計算の画素一致`, () => {
+          const r = create(size); r.configure({ style, theme, trail });
           const metadata = { duration: 4, trackKey: 'test', analysisVersion: 'test' };
           r.reset(12345, metadata); runFrames(r, 0, 40);
           const saved = r.snapshot(); runFrames(r, 40, 90);
@@ -87,21 +88,23 @@ $('run').onclick = async () => {
       }
     }
   }
-  await check('曲末の合成画面と内部状態を保持', () => {
-    const r = create(); r.reset(9, { duration: .11 }); runFrames(r, 0, 4);
+  }
+  for (const style of Object.keys(styleRegistry)) {
+  await check(`${style}：曲末の合成画面と内部状態を保持`, () => {
+    const r = create(); r.configure({ style }); r.reset(9, { duration: .11 }); runFrames(r, 0, 4);
     const expected = pixels(r.canvas), state = JSON.stringify(r.snapshot().styleState);
     for (let i = 0; i < 30; i++) assert(r.step(sample(i)) === false, '終端後に更新');
     equal(pixels(r.canvas), expected); assert(state === JSON.stringify(r.snapshot().styleState), '終端後に状態変化');
     r.dispose();
   });
-  await check('毎ステップ合成と一括合成が一致', () => {
-    const a = create(), b = create(); a.reset(98); b.reset(98);
+  await check(`${style}：毎ステップ合成と一括合成が一致`, () => {
+    const a = create(), b = create(); a.configure({ style }); b.configure({ style }); a.reset(98); b.reset(98);
     runFrames(a, 0, 90, true); runFrames(b, 0, 90, false);
     equal(pixels(a.canvas), pixels(b.canvas)); a.dispose(); b.dispose();
   });
   for (const size of [[720, 1280], [1280, 720], [1080, 1080]]) {
-    await check(`${size.join('×')}：合成キャンバスのPNGと画素・サイズが一致`, async () => {
-      const r = create(size); r.reset(345); runFrames(r, 0, 30);
+    await check(`${style} / ${size.join('×')}：合成キャンバスのPNGと画素・サイズが一致`, async () => {
+      const r = create(size); r.configure({ style }); r.reset(345); runFrames(r, 0, 30);
       const blob = await new Promise(resolve => r.canvas.toBlob(resolve, 'image/png'));
       assert(blob?.type === 'image/png', 'PNG生成失敗');
       const bitmap = await createImageBitmap(blob);
@@ -112,6 +115,7 @@ $('run').onclick = async () => {
         preview.getContext('2d').drawImage(r.canvas, 0, 0); $('sample').append(preview); }
       r.dispose();
     });
+  }
   }
   $('summary').textContent = `完了：${passed}/${total} 成功、失敗 ${total - passed}`;
   $('run').disabled = false;
