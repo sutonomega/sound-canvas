@@ -18,6 +18,7 @@ python -m http.server 8765 --bind 127.0.0.1 --directory dist
 
 ```sh
 node --version
+npm run check
 npm test
 ```
 
@@ -35,7 +36,7 @@ git switch -c feat/issue-N-description
 ```
 
 3. Issueの目的・完了条件を読み、必要な実装・文書・確認を行います。不具合は`fix/`、文書は`docs/`を使います。
-4. `npm test`、変更したJavaScriptの`node --check dist/app.js`などの構文確認、対象操作のブラウザ確認を行います。文書のみならリンクと手順を確認します。
+4. `npm run check`で全JavaScriptの構文を確認し、`npm test`と対象操作のブラウザ確認を行います。文書のみならリンクと手順を確認します。
 5. `git diff --check`と`git diff`で差分を読み、対象ファイルを指定して追加・コミットします。例は`git add docs/user-guide.md`です。音源や個人情報を含む作業資料を一括追加しないでください。
 6. `git push -u origin 作業ブランチ名`で送り、GitHubで **base: dev** のPRを作ります。[PRテンプレート](../.github/PULL_REQUEST_TEMPLATE.md)に目的、Refs #番号、差分、実施した確認と未確認事項を書きます。
 7. レビュー後にdevへマージされたことを確認し、Issueの完了条件を照合して閉じます。既定ブランチはmainなので、dev宛PRの`Closes`記載だけで閉じたと判断しません。
@@ -77,7 +78,7 @@ git switch -c feat/issue-N-description
 
 OS・ブラウザの版、対象コミット、音源の形式・長さ・容量、設定、結果を記録します。自動操作環境と通常ブラウザ、メモリ内の生成と実ファイル保存を区別します。合成短音の同期測定を長曲や別ブラウザの保証へ広げません。Firefox・Safari等の未確認範囲も残します。
 
-現在の[公開ワークフロー](../.github/workflows/pages.yml)はmainへのpush時に構文・自動テストを確認してから公開します。PR時のCI整備とv1.0公開は[#21](https://github.com/sutonomega/sound-canvas/issues/21)の作業で、現時点でPRの自動確認が完備したとは扱いません。
+[共通チェック](../.github/workflows/checks.yml)はdev・main宛PRとdevへのpushで、Node.js 24の構文確認・自動テストを実行します。[公開ワークフロー](../.github/workflows/pages.yml)も同じチェックの成功後、mainだけを配信します。マージ前にPRのChecksを確認してください。ブランチ保護の必須チェック設定を自動で変更するものではありません。v1.0公開と公開後確認は[公開準備記録](v1.0-release.md)で追います。
 
 ## mainへ公開する
 

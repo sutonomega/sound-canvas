@@ -22,9 +22,9 @@ Windows / Chrome 157・Edge 157での確認範囲と未確認環境は[リリー
 python -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-[http://127.0.0.1:8765/](http://127.0.0.1:8765/)を開きます。Python 3を使い、終了はCtrl+Cです。直接HTMLを開く方法では動作しません。ビルド・依存パッケージのインストールは不要です。Node.js 24で`npm test`を実行できます。
+[http://127.0.0.1:8765/](http://127.0.0.1:8765/)を開きます。Python 3を使い、終了はCtrl+Cです。直接HTMLを開く方法では動作しません。ビルド・依存パッケージのインストールは不要です。Node.js 24で`npm run check`（全JavaScriptの構文）と`npm test`を実行できます。
 
-[開発・検証・公開ガイド](docs/development-and-release.md)に環境準備、変更、dev宛PR、mainへの公開、復旧をまとめています。mainへのpushで[公開ワークフロー](.github/workflows/pages.yml)が`dist/`をGitHub Pagesへ配信します。v1.0のCI・公開整備は[Issue #21](https://github.com/sutonomega/sound-canvas/issues/21)で進めます。
+[開発・検証・公開ガイド](docs/development-and-release.md)に環境準備、変更、dev宛PR、mainへの公開、復旧をまとめています。mainへのpushで[公開ワークフロー](.github/workflows/pages.yml)が`dist/`をGitHub Pagesへ配信します。PRと公開前に同じ自動チェックを実行します。v1.0の公開状況は[公開準備記録](docs/v1.0-release.md)と[Issue #21](https://github.com/sutonomega/sound-canvas/issues/21)で進めます。
 
 ## 構成と計画
 

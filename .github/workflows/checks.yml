@@ -1,0 +1,27 @@
+name: Sound Canvas checks
+
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [dev]
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: JavaScript checks (Node 24)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Check all JavaScript syntax
+        run: npm run check
+      - name: Check analysis, playback, rendering and exports
+        run: npm test

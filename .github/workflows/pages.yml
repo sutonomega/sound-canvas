@@ -7,40 +7,28 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
+  checks:
+    uses: ./.github/workflows/checks.yml
   deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: checks
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v6
-      - name: Check JavaScript syntax
-        run: |
-          node --check dist/app.js
-          node --check dist/settings-ui.js
-          node --check dist/audio.js
-          node --check dist/video.js
-          node --check dist/analysis.js
-          node --check dist/controller.js
-          node --check dist/checkpoints.js
-          node --check dist/renderer.js
-          node --check dist/timing.js
-          node --check dist/themes.js
-          node --check dist/styles/index.js
-          node --check dist/styles/organic.js
-          node --check dist/styles/geometric.js
-          node --check dist/styles/particles.js
-          node --check dist/styles/watercolor.js
-      - name: Check analysis, playback and rendering
-        run: node --test tests/*.test.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
