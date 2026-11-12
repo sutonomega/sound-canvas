@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-13",
+  "commit": "379616bf6db50790443be2ebdb7b7c6ac85aa3a2",
+  "url": "https://sutonomega.github.io/sound-canvas/",
+  "environment": "Windows / Chrome 157 / Playwright headed",
+  "mp3": {
+    "durationSeconds": 289.00016666666664,
+    "loadAndShortPlayback": true,
+    "fullRecordingRepeatedAfterPublish": false
+  },
+  "wav": {
+    "durationSeconds": 8,
+    "sampleRate": 22050,
+    "channels": 1
+  },
+  "settings": {
+    "style": "geometric",
+    "theme": "ocean",
+    "ratio": "square",
+    "strength": 100,
+    "trail": "accumulate"
+  },
+  "png": [
+    {
+      "kind": "current",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 344955
+    },
+    {
+      "kind": "complete",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 551973
+    }
+  ],
+  "savedWebM": {
+    "bytes": 4447168,
+    "audioDurationSeconds": 8.1,
+    "audioRms": 0.19461863456401832,
+    "width": 1080,
+    "height": 1080,
+    "playbackTimeSeconds": 0.332715,
+    "framePixelRange": 24
+  },
+  "cancelAndPlaybackRecovery": true,
+  "knownConsoleError": "favicon.ico 404"
+}
