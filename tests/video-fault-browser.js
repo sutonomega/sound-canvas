@@ -13,7 +13,8 @@ async function run(kind) {
   const exporter = new VideoExporter(studio, () => $('status').textContent = `${exporter.state} ${exporter.percent}% ${exporter.message}`);
   let injected = false, timer;
   try {
-    await audio.init(); const rate = 8000, buffer = audio.context.createBuffer(1, rate * 15, rate), data = buffer.getChannelData(0);
+    await audio.init(); const rate = 8000, duration = kind === 'hidden' ? 60 : 15;
+    const buffer = audio.context.createBuffer(1, rate * duration, rate), data = buffer.getChannelData(0);
     for (let i = 0; i < data.length; i++) data[i] = .3 * Math.sin(2 * Math.PI * 70 * i / rate) + .12 * Math.sin(2 * Math.PI * 330 * i / rate);
     const track = await audio.analyze(buffer); await studio.load(async () => track, 'fault-fixture.wav'); await studio.seek(1.1);
     if (kind === 'lag') timer = setInterval(() => {
