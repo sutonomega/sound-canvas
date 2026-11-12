@@ -1,10 +1,10 @@
 import { palettes } from '../themes.js';
 
-// Each instance owns its previous points, pulse lifetimes and random state.
 export const organicStyle = Object.freeze({
-  id: 'organic', version: 'organic-1',
+  id: 'organic', version: 'organic-2',
   create() {
-    let width, height, phase, settings, randomState, last = [], pulses = [];
+    let width, height, scale, settings, randomState, phase, offsets;
+    let travel = 0, detailCredit = 0, last = [], pulses = [];
     const random = () => {
       randomState = (Math.imul(randomState, 1664525) + 1013904223) >>> 0;
       return randomState / 4294967296;
@@ -12,51 +12,89 @@ export const organicStyle = Object.freeze({
     return {
       reset(options) {
         ({ width, height, settings } = options);
-        phase = (options.seed % 10000) / 1000;
+        scale = Math.min(width, height);
         randomState = options.seed >>> 0;
-        last = []; pulses = [];
+        phase = random() * Math.PI * 2;
+        offsets = Array.from({ length: 7 }, (_, i) => i * .53 + random() * .16);
+        travel = 0; detailCredit = 0; last = []; pulses = [];
       },
-      step({ time, dt, features: a, layers }) {
-        const c = layers.drawing, e = layers.effects;
-        const v = a.volume * settings.strength, b = a.bass * settings.strength;
-        const m = a.mid * settings.strength, colors = palettes[settings.theme];
+      step({ dt, features: a, layers }) {
+        const c = layers.drawing, e = layers.effects, strength = settings.strength;
+        const v = Math.min(1.4, a.volume * strength), b = Math.min(1, a.bass * strength);
+        const m = Math.min(1, a.mid * strength), h = Math.min(1, a.high * strength);
+        const intensity = Math.min(1, (a.intensity ?? 0) * strength);
+        const audible = v > .005, colors = palettes[settings.theme];
+        // A music-driven clock is part of the saved simulation state.
+        travel += dt * (.16 + m * .28 + intensity * .18) * (.6 + strength * .4);
+        const margin = Math.max(2, scale * .1);
+        const fieldX = Math.max(0, width / 2 - margin), fieldY = Math.max(0, height / 2 - margin);
+        const centerX = width / 2 + fieldX * .1 * Math.sin(travel * .43 + phase);
+        const centerY = height / 2 + fieldY * .1 * Math.cos(travel * .31 - phase);
+        const spread = .48 + b * .28 + intensity * .08;
+        const ease = 1 - Math.exp(-dt * (2 + m * 3));
         pulses = pulses.filter(pulse => (pulse.age += dt) < pulse.life);
-        c.globalCompositeOperation = 'lighter';
+        // Overpainting colored strokes, rather than additive accumulation, avoids
+        // turning repeated crossings into a white patch during a long song.
+        c.globalCompositeOperation = 'source-over'; c.lineCap = 'round';
         for (let j = 0; j < 7; j++) {
-          const q = time * .23 + j * .9 + phase;
-          const x = width * (.5 + .29 * Math.sin(q * .83 + .6 * Math.sin(time * .11 + phase)) + .085 * Math.cos(q * 2.1 + j));
-          const y = height * (.5 + .29 * Math.cos(q * .61 + j * .24) + .09 * Math.sin(q * 1.7));
-          const previous = last[j] || [x, y], hue = colors[j % colors.length];
-          if (v > .005) {
-            const width = .6 + v * 2.8;
-            c.beginPath(); c.moveTo(...previous);
-            c.quadraticCurveTo((previous[0] + x) / 2 + Math.sin(q * 3) * m * 8, (previous[1] + y) / 2, x, y);
-            // Layered strokes avoid an expensive per-path blur on full-size CPU canvases.
-            c.strokeStyle = `hsla(${hue},85%,62%,${.008 + v * .018})`;
-            c.lineWidth = width + 5 + b * 3; c.stroke();
-            c.strokeStyle = `hsla(${hue},85%,68%,${Math.min(.5, .035 + v * .16)})`;
-            c.lineWidth = width;
-            c.stroke();
-            if (a.beat) pulses.push({ x, y, hue, age: 0, life: .6 + random() * .4, radius: 1 + b * 2 + random() });
+          const q = travel + phase + offsets[j];
+          const targetX = centerX + fieldX * spread * (.7 * Math.sin(q * .89 + .22 * Math.sin(q * .41 + phase)) + .22 * Math.cos(q * 1.87 + j * .17));
+          const targetY = centerY + fieldY * spread * (.7 * Math.cos(q * .61 + j * .19) + .22 * Math.sin(q * 1.39 + phase));
+          const previous = last[j] || [targetX, targetY];
+          const x = previous[0] + (targetX - previous[0]) * ease;
+          const y = previous[1] + (targetY - previous[1]) * ease;
+          const dx = x - previous[0], dy = y - previous[1], distance = Math.hypot(dx, dy);
+          const hue = colors[j % colors.length];
+          if (audible && distance > 1e-8) {
+            const bend = Math.min(scale * .003, distance * .35) * Math.sin(q * 2.7) * m;
+            const cpX = (previous[0] + x) / 2 - dy / distance * bend;
+            const cpY = (previous[1] + y) / 2 + dx / distance * bend;
+            const lineWidth = Math.max(.12, scale * (.0011 + v * .0026));
+            const coverage = Math.min(1, distance / Math.max(.1, scale * .0015));
+            const alpha = (.065 + Math.sqrt(v) * .18) * (.5 + coverage * .5);
+            c.beginPath(); c.moveTo(...previous); c.quadraticCurveTo(cpX, cpY, x, y);
+            c.strokeStyle = `hsla(${hue},85%,58%,${alpha * .18})`;
+            c.lineWidth = lineWidth * 3.4 + scale * .0015; c.stroke();
+            c.strokeStyle = `hsla(${hue},85%,${54 + v * 10}%,${alpha})`;
+            c.lineWidth = lineWidth; c.stroke();
           }
           last[j] = [x, y];
         }
+
+        if (audible && h > .12) {
+          detailCredit += dt * h * (3 + intensity * 9);
+          while (detailCredit >= 1) {
+            detailCredit -= 1;
+            const j = Math.floor(random() * last.length), point = last[j];
+            const radius = Math.max(.18, scale * (.0006 + h * .0011));
+            c.fillStyle = `hsla(${colors[j % colors.length]},85%,${62 + v * 8}%,${.12 + h * .18})`;
+            c.beginPath(); c.arc(point[0], point[1], radius, 0, Math.PI * 2); c.fill();
+          }
+        }
+        if (audible && a.beat) {
+          const count = 2 + Math.floor(intensity * 5);
+          for (let n = 0; n < count; n++) {
+            const j = Math.floor(n * 7 / count), point = last[j];
+            pulses.push({ x: point[0], y: point[1], hue: colors[j % colors.length], age: 0,
+              life: .4 + random() * .4,
+              radius: Math.max(.35, scale * (.0018 + b * .004)) * (.8 + random() * .2),
+            });
+          }
+        }
         pulses = pulses.slice(-64);
-        e.globalCompositeOperation = 'lighter';
+        e.globalCompositeOperation = 'source-over';
         for (const pulse of pulses) {
           const remaining = 1 - pulse.age / pulse.life;
-          const radius = pulse.radius * (1 + pulse.age), glowRadius = radius * 4;
+          const radius = pulse.radius * (1 + pulse.age * .7), glowRadius = radius * 4;
           const glow = e.createRadialGradient(pulse.x, pulse.y, 0, pulse.x, pulse.y, glowRadius);
-          glow.addColorStop(0, `hsla(${pulse.hue},90%,80%,${remaining * .4})`);
-          glow.addColorStop(.3, `hsla(${pulse.hue},90%,70%,${remaining * .12})`);
-          glow.addColorStop(1, `hsla(${pulse.hue},90%,60%,0)`);
+          glow.addColorStop(0, `hsla(${pulse.hue},90%,76%,${remaining * .42})`);
+          glow.addColorStop(.3, `hsla(${pulse.hue},90%,65%,${remaining * .14})`);
+          glow.addColorStop(1, `hsla(${pulse.hue},90%,58%,0)`);
           e.fillStyle = glow;
           e.fillRect(pulse.x - glowRadius, pulse.y - glowRadius, glowRadius * 2, glowRadius * 2);
         }
       },
-      snapshot() {
-        return structuredClone({ last, pulses, randomState });
-      },
+      snapshot() { return structuredClone({ last, pulses, randomState, travel, detailCredit }); },
       restore(state) {
         const finite = value => typeof value === 'number' && Number.isFinite(value);
         if (!state || !Array.isArray(state.last) || state.last.length > 7
@@ -64,12 +102,14 @@ export const organicStyle = Object.freeze({
             || !Array.isArray(state.pulses) || state.pulses.length > 64
             || state.pulses.some(pulse => !['x', 'y', 'hue', 'age', 'life', 'radius'].every(key => finite(pulse[key]))
               || pulse.age < 0 || pulse.life <= pulse.age || pulse.radius <= 0)
-            || !Number.isInteger(state.randomState) || state.randomState < 0 || state.randomState > 0xffffffff) {
+            || !Number.isInteger(state.randomState) || state.randomState < 0 || state.randomState > 0xffffffff
+            || !finite(state.travel) || state.travel < 0 || !finite(state.detailCredit)
+            || state.detailCredit < 0 || state.detailCredit >= 1) {
           throw new Error('曲線スタイルの復元データが不正です。');
         }
-        ({ last, pulses, randomState } = structuredClone(state));
+        ({ last, pulses, randomState, travel, detailCredit } = structuredClone(state));
       },
-      dispose() { last = []; pulses = []; },
+      dispose() { last = []; pulses = []; offsets = []; },
     };
   },
 });

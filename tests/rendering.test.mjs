@@ -118,7 +118,9 @@ test('reset clears pulse and random state and repeats the same organic state', (
   assert.deepEqual(first, second);
   assert.ok(first.styleState.pulses.length > 0);
   r.reset(234, metadata); const initial = r.snapshot();
-  assert.deepEqual(initial.styleState, { last: [], pulses: [], randomState: 234 });
+  assert.deepEqual(initial.styleState.last, []); assert.deepEqual(initial.styleState.pulses, []);
+  assert.equal(initial.styleState.travel, 0); assert.equal(initial.styleState.detailCredit, 0);
+  r.reset(234, metadata); assert.deepEqual(r.snapshot().styleState, initial.styleState);
 });
 
 test('expired effects do not stay in style state', () => {
