@@ -1,6 +1,6 @@
 # 開発・検証・公開の手順
 
-対応Issue: [#20](https://github.com/sutonomega/sound-canvas/issues/20)。日常の判断基準は[プロジェクト推進ガイド](project-workflow.md)、完成条件は[公開範囲](service-scope.md)と[ロードマップ](roadmap.md)を参照します。2026-11-13時点では公開mainは0.1、devはv1.0公開候補です。
+対応Issue: [#20](https://github.com/sutonomega/sound-canvas/issues/20)。日常の判断基準は[プロジェクト推進ガイド](project-workflow.md)、完成条件は[公開範囲](service-scope.md)と[ロードマップ](roadmap.md)を参照します。この文書はv1.0.0の構成を対象とします。公開済みの版・公開後の確認状況は[リリース記録](v1.0-release.md)で管理し、devの版と区別します。
 
 ## 初めて起動する
 
