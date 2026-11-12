@@ -54,6 +54,25 @@ export class AudioEngine {
     this.playing = true;
   }
 
+  createRecordingSession() {
+    if (!this.buffer) throw new Error('先に楽曲を読み込んでください。');
+    const context = this.ensureContext(), destination = context.createMediaStreamDestination();
+    let source, started = null, ended = false, stopped = false;
+    try { source = context.createBufferSource(); source.buffer = this.buffer; source.connect(destination); source.connect(context.destination); }
+    catch (error) { source?.disconnect(); destination.disconnect(); destination.stream.getTracks().forEach(track => track.stop()); throw error; }
+    source.onended = () => { ended = true; };
+    return {
+      stream: destination.stream,
+      get time() { return ended ? source.buffer.duration : started === null ? 0 : Math.max(0, Math.min(source.buffer.duration, context.currentTime - started)); },
+      start(when) { if (stopped || started !== null) throw new Error('録画用の音声を開始できません。'); source.start(when, 0); started = when; },
+      stop() {
+        if (stopped) return; stopped = true; source.onended = null;
+        try { source.stop(); } catch { /* A source may not have started or may already have ended. */ }
+        source.disconnect(); destination.disconnect(); destination.stream.getTracks().forEach(track => track.stop());
+      },
+    };
+  }
+
   setPosition(time) {
     this.pause();
     this.offset = Math.max(0, Math.min(this.buffer?.duration ?? 0, Number.isFinite(time) ? time : 0));

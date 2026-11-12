@@ -6,7 +6,7 @@ export { frameCount } from './timing.js';
 export class StudioController {
   constructor(audio, renderer, notify = () => {}, yieldTask = () => new Promise(resolve => setTimeout(resolve, 0)), { now = () => performance.now(), budgetMs = 8, batchFrames = 120, cache = new CheckpointCache(renderer) } = {}) {
     Object.assign(this, { audio, renderer, notify, yieldTask, now, budgetMs, batchFrames, cache });
-    this.progress = null; this.lastRestore = null;
+    this.progress = null; this.lastRestore = null; this.exporting = false;
     this.operation = null; this.generation = 0; this.state = 'empty'; this.name = '';
     this.message = '曲全体を解析してから描画します。';
     this.status = '楽曲を読み込んで、制作をはじめましょう';
@@ -14,11 +14,11 @@ export class StudioController {
   }
 
   get loading() { return this.state === 'loading'; }
-  get canConfigure() { return !this.loading; }
+  get canConfigure() { return !this.loading && !this.exporting; }
   get restoring() { return this.state === 'restoring'; }
   get target() { return this.audio.buffer ? frameCount(this.audio.time, this.audio.buffer.duration) : 0; }
   get canSave() {
-    return !!this.audio.buffer && !this.loading && !this.restoring && !this.starting
+    return !!this.audio.buffer && !this.exporting && !this.loading && !this.restoring && !this.starting
       && this.renderer.frame === this.target;
   }
 
@@ -40,6 +40,7 @@ export class StudioController {
   }
 
   async load(loader, name) {
+    if (this.exporting) return;
     const signal = this.begin();
     this.audio.pause(); this.resumeAfterRestore = false; this.progress = null; this.state = 'loading';
     this.message = '音源を読み込んでいます…';
@@ -116,7 +117,7 @@ export class StudioController {
   }
 
   async seek(time) {
-    if (this.loading || !this.audio.buffer) return;
+    if (this.exporting || this.loading || !this.audio.buffer) return;
     const resume = this.audio.playing || (this.restoring && this.resumeAfterRestore);
     this.audio.setPosition(time);
     await this.restore(resume);
@@ -144,14 +145,14 @@ export class StudioController {
   }
 
   restart(status = '最初から再生できます') {
-    if (this.loading || !this.audio.buffer) return;
+    if (this.exporting || this.loading || !this.audio.buffer) return;
     this.begin(); this.audio.setPosition(0); this.resetRenderer();
     this.progress = null; this.resumeAfterRestore = false; this.state = 'ready';
     this.status = status; this.emit();
   }
 
   async togglePlay() {
-    if (!this.audio.buffer || this.loading || this.restoring || this.starting) return;
+    if (!this.audio.buffer || this.exporting || this.loading || this.restoring || this.starting) return;
     if (this.audio.playing) {
       this.audio.pause(); this.status = '一時停止しました。軌跡はそのまま残ります'; this.emit(); return;
     }
@@ -174,7 +175,7 @@ export class StudioController {
   }
 
   tick() {
-    if (!this.audio.buffer || this.loading || this.restoring) return;
+    if (!this.audio.buffer || this.exporting || this.loading || this.restoring) return;
     const target = this.target;
     const before = this.renderer.frame; this.cache.sync();
     for (let n = 0; n < 90 && this.renderer.frame < target; n++) {
