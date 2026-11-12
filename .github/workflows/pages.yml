@@ -25,6 +25,7 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check dist/app.js
+          node --check dist/settings-ui.js
           node --check dist/audio.js
           node --check dist/analysis.js
           node --check dist/controller.js

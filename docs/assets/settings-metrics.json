@@ -1,0 +1,941 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "rendererVersion": "sc-renderer-3",
+  "seed": 12345,
+  "duration": 6,
+  "matrixSeconds": 0.4,
+  "comparisons": [
+    {
+      "style": "organic",
+      "theme": "aurora",
+      "ratio": "9:16",
+      "strength": 1,
+      "trail": "accumulate",
+      "seconds": 6
+    },
+    {
+      "style": "geometric",
+      "theme": "ember",
+      "ratio": "1:1",
+      "strength": 1,
+      "trail": "accumulate",
+      "seconds": 6
+    },
+    {
+      "style": "particles",
+      "theme": "ocean",
+      "ratio": "16:9",
+      "strength": 1,
+      "trail": "accumulate",
+      "seconds": 6
+    },
+    {
+      "style": "watercolor",
+      "theme": "ember",
+      "ratio": "9:16",
+      "strength": 1,
+      "trail": "accumulate",
+      "seconds": 6
+    }
+  ],
+  "checks": [
+    {
+      "title": "初期設定は曲線・Aurora・100%・蓄積・9:16、未読込は設定可能でPNG不可",
+      "passed": true
+    },
+    {
+      "title": "読込前の選択を保持し、解析中は全設定を無効化する",
+      "passed": true
+    },
+    {
+      "title": "入力中の反応値は画面更新で戻らず、確定時にだけ再計算する",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / aurora / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ember / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "organic / ocean / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / aurora / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ember / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "geometric / ocean / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / aurora / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ember / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "particles / ocean / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / aurora / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ember / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / accumulate / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 9:16 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 9:16 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 9:16 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 16:9 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 16:9 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 16:9 / 200%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 1:1 / 25%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 1:1 / 100%",
+      "passed": true
+    },
+    {
+      "title": "watercolor / ocean / fade / 1:1 / 200%",
+      "passed": true
+    },
+    {
+      "title": "同じ選択は再計算も再生中断もしない",
+      "passed": true
+    },
+    {
+      "title": "復元中の連続設定変更とシークは最後の内容だけを保存する",
+      "passed": true
+    },
+    {
+      "title": "不正な設定は画面と描画を前の選択へ戻す",
+      "passed": true
+    },
+    {
+      "title": "読込失敗後も設定と保存可能な描画を維持する",
+      "passed": true
+    },
+    {
+      "title": "読込中止で設定が再び操作でき、古い読込結果を反映しない",
+      "passed": true
+    }
+  ],
+  "total": 224,
+  "passed": 224
+}

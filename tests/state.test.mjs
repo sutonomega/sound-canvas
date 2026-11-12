@@ -236,3 +236,48 @@ test('controller resets include the active track identity, version and duration'
   await studio.seek(1); assert.deepEqual(renderer.metadata, expected);
   await studio.configure({ theme: 'ocean' }); assert.deepEqual(renderer.metadata, expected);
 });
+
+test('same settings and ratio preserve playback, pixels and operation generation', async () => {
+  const { studio, audio, renderer } = fixture(); renderer.settings = { style: 'organic', theme: 'aurora', strength: 1, trail: 'accumulate' };
+  await studio.load(async () => track(), 'song'); await studio.seek(4); await studio.togglePlay();
+  const generation = studio.generation, frames = renderer.frames;
+  await studio.configure({ style: 'organic', strength: 1 }, [720, 1280]);
+  assert.equal(studio.generation, generation); assert.equal(renderer.frames, frames);
+  assert.equal(audio.playing, true); assert.equal(audio.time, 4);
+});
+test('a no-op during restore does not cancel the pending target or resume intent', async () => {
+  const gate = deferred(), { studio, audio, renderer } = fixture(() => gate.promise);
+  renderer.settings = { theme: 'aurora' }; await studio.load(async () => track(), 'song'); await studio.togglePlay();
+  const pending = studio.seek(7), generation = studio.generation;
+  await studio.configure({ theme: 'aurora' }); assert.equal(studio.generation, generation); assert.equal(studio.restoring, true);
+  gate.resolve(); await pending; assert.equal(renderer.frame, 210); assert.equal(audio.playing, true);
+});
+test('rapid style, theme, strength, trail, ratio and seek requests only retain the last result', async () => {
+  const { studio, audio, renderer } = fixture(); await studio.load(async () => track(), 'song'); await studio.togglePlay();
+  await Promise.all([studio.seek(9), studio.configure({ style: 'watercolor' }), studio.configure({ theme: 'ember' }),
+    studio.configure({ strength: .25, trail: 'fade' }, [1080, 1080]), studio.seek(2)]);
+  assert.deepEqual(renderer.settings, { style: 'watercolor', theme: 'ember', strength: .25, trail: 'fade' });
+  assert.equal(renderer.canvas.width, 1080); assert.equal(renderer.frame, 60); assert.equal(audio.time, 2);
+  assert.deepEqual(renderer.frames.map(f => f.frame), Array.from({ length: 60 }, (_, i) => i)); assert.equal(audio.playing, true);
+});
+test('all setting changes are locked during loading and unlock on cancellation', async () => {
+  const { studio, renderer } = fixture(), candidate = deferred(); await studio.load(async () => track(), 'song');
+  renderer.settings = { theme: 'aurora' }; const pending = studio.load(() => candidate.promise, 'new');
+  assert.equal(studio.canConfigure, false); await studio.configure({ theme: 'ember' }, [1080, 1080]);
+  assert.equal(renderer.settings.theme, 'aurora'); assert.equal(renderer.canvas.width, 720);
+  await studio.cancelLoad(); assert.equal(studio.canConfigure, true); candidate.resolve(track(2)); await pending;
+});
+test('rejected settings preserve the current drawing and playing position without rejecting the UI request', async () => {
+  const { studio, audio, renderer } = fixture(); await studio.load(async () => track(), 'song'); await studio.seek(3); await studio.togglePlay();
+  const frames = renderer.frames, generation = studio.generation; renderer.configure = () => { throw new Error('invalid settings'); };
+  await studio.configure({ theme: 'invalid' });
+  assert.equal(renderer.frames, frames); assert.equal(studio.generation, generation); assert.equal(audio.playing, true);
+  assert.equal(audio.time, 3); assert.match(studio.status, /前の設定/); assert.equal(studio.canSave, true);
+});
+test('rejected settings during restore do not resume audio before the valid restore finishes', async () => {
+  const gate = deferred(), { studio, audio, renderer } = fixture(() => gate.promise);
+  await studio.load(async () => track(), 'song'); await studio.togglePlay(); const pending = studio.seek(5);
+  renderer.configure = () => { throw new Error('invalid'); }; await studio.configure({ theme: 'invalid' });
+  assert.equal(audio.playing, false); assert.equal(studio.restoring, true); gate.resolve(); await pending;
+  assert.equal(audio.playing, true); assert.equal(renderer.frame, 150);
+});
