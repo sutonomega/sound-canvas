@@ -3,7 +3,7 @@ import { themes } from './themes.js';
 import { styleRegistry } from './styles/index.js';
 export { palettes } from './themes.js';
 
-export const RENDER_VERSION = 'sc-renderer-2';
+export const RENDER_VERSION = 'sc-renderer-3';
 const layerNames = ['background', 'drawing', 'effects'];
 const validSize = (width, height) => Number.isSafeInteger(width) && width > 0 && Number.isSafeInteger(height) && height > 0;
 
@@ -97,10 +97,14 @@ export class Renderer {
     if (this.metadata.duration !== null && this.frame >= frameCount(this.metadata.duration, this.metadata.duration)) return false;
     const dt = stepDuration(this.frame, this.metadata.duration);
     const drawing = this.layers.drawing.ctx, effects = this.layers.effects.ctx;
-    if (this.settings.trail === 'fade') {
+    const fadeTicks = this.frame % 4 + dt * STEP_RATE;
+    const finalStep = this.metadata.duration !== null && this.frame + 1 >= frameCount(this.metadata.duration, this.metadata.duration);
+    // Batch four ticks to prevent 8-bit alpha rounding from leaving a gray pigment floor.
+    // The phase comes from frame, so snapshots and partial song endings need no extra clock.
+    if (this.settings.trail === 'fade' && (this.frame % 4 === 3 || finalStep)) {
       drawing.save();
       drawing.globalCompositeOperation = 'destination-out';
-      drawing.fillStyle = `rgba(0,0,0,${1 - Math.pow(1 - .018, dt * STEP_RATE)})`;
+      drawing.fillStyle = `rgba(0,0,0,${1 - Math.pow(1 - .018, fadeTicks)})`;
       drawing.fillRect(0, 0, this.canvas.width, this.canvas.height);
       drawing.restore();
     }

@@ -69,6 +69,13 @@ $('run').onclick = async () => {
     assert(before === 255 && after > 0 && after < 110, `${before}→${after}`); r.dispose();
   });
 
+  await check('減衰が低透明度の灰色を蓄積しない', () => {
+    const r = probeRenderer(); r.configure({ trail: 'fade' }); r.step(sample(0));
+    for (let i = 0; i < 900; i++) r.step(sample(i), { present: false });
+    const data = r.layers.drawing.ctx.getImageData(4, 4, 1, 1).data;
+    assert(data[3] <= 8, `消え残りの透明度 ${data[3]}`); r.dispose();
+  });
+
   for (const style of Object.keys(styleRegistry)) {
   for (const [ratio, size] of [['9:16', [36, 64]], ['16:9', [64, 36]], ['1:1', [48, 48]]]) {
     for (const theme of ['aurora', 'ember', 'ocean']) {
