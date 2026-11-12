@@ -1,7 +1,7 @@
 // Analysis is independent of AudioContext, playback, rendering and the DOM.
-import { STEP_RATE } from './timing.js';
+import { STEP_RATE, frameCount, stepDuration } from './timing.js';
 export const FEATURE_RATE = STEP_RATE;
-export const ANALYSIS_VERSION = 'sc-analysis-2';
+export const ANALYSIS_VERSION = 'sc-analysis-3';
 export const ANALYSIS_SETTINGS = Object.freeze({
   lowHz: 200, highHz: 2400, q: Math.SQRT1_2,
   normalizationFloor: 1e-4, silenceFloor: 1e-7,
@@ -76,7 +76,7 @@ export async function analyzeAudio(buffer, { signal, onProgress, yieldTask = yie
   onProgress?.('音源の識別情報を準備しています… 0%');
   check(signal);
   const identity = await identify(channels, sampleRate, sampleCount, { signal, onProgress });
-  const duration = sampleCount / sampleRate, count = Math.ceil(duration * FEATURE_RATE);
+  const duration = sampleCount / sampleRate, count = frameCount(duration, duration);
   if (!Number.isFinite(duration) || !Number.isSafeInteger(count)) {
     throw new Error('音源の解析区間を計算できませんでした。');
   }
@@ -119,7 +119,7 @@ export async function analyzeAudio(buffer, { signal, onProgress, yieldTask = yie
   let bassAverage = 0, previousBass = 0, lastBeat = -s.beatGapFrames, intensity = 0, density = 0;
   for (let frame = 0; frame < count; frame++) {
     const item = frames[frame];
-    const dt = Math.min(1 / FEATURE_RATE, duration - frame / FEATURE_RATE);
+    const dt = stepDuration(frame, duration);
     const rawBass = clamp(item.bass / peak), rawVolume = clamp(item.volume / peak);
     item.beat = rawVolume > s.beatFloor && rawBass > Math.max(s.beatFloor, bassAverage * s.beatRatio)
       && rawBass - previousBass > s.beatRise && frame - lastBeat >= s.beatGapFrames;

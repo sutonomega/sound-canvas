@@ -3,7 +3,7 @@ import { themes } from './themes.js';
 import { styleRegistry } from './styles/index.js';
 export { palettes } from './themes.js';
 
-export const RENDER_VERSION = 'sc-renderer-3';
+export const RENDER_VERSION = 'sc-renderer-4';
 const layerNames = ['background', 'drawing', 'effects'];
 const validSize = (width, height) => Number.isSafeInteger(width) && width > 0 && Number.isSafeInteger(height) && height > 0;
 
