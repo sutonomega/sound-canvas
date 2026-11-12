@@ -6,6 +6,7 @@
 
 - [v1.0までのロードマップ](docs/roadmap.md)
 - [プロジェクト推進・レビュー対応ガイド](docs/project-workflow.md)
+- [公開範囲と完成条件](docs/service-scope.md)・[機能仕様](docs/spec.md)・[設計](docs/design.md)
 - [Issue一覧](https://github.com/sutonomega/sound-canvas/issues)・[マイルストーン](https://github.com/sutonomega/sound-canvas/milestones)
 
 日常開発は作業ブランチから `dev` 宛てのPRで確認します。公開時に `dev` から `main` へ反映します。
