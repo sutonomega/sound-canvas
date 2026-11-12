@@ -2,6 +2,14 @@
 
 公開アプリ: https://sutonomega.github.io/sound-canvas/
 
+## 開発計画と進め方
+
+- [v1.0までのロードマップ](docs/roadmap.md)
+- [プロジェクト推進・レビュー対応ガイド](docs/project-workflow.md)
+- [Issue一覧](https://github.com/sutonomega/sound-canvas/issues)・[マイルストーン](https://github.com/sutonomega/sound-canvas/milestones)
+
+日常開発は作業ブランチから `dev` 宛てのPRで確認します。公開時に `dev` から `main` へ反映します。
+
 ## GitHub Pages への自動公開
 
 `main` ブランチへの push で `.github/workflows/pages.yml` が実行され、`dist/` を GitHub Pages に公開します。ビルド・パッケージのインストールは不要です。公開結果はリポジトリの Actions で確認できます。楽曲ファイルや認証情報は含めないでください。
