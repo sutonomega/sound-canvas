@@ -47,8 +47,8 @@ export class SettingsPanel {
     if (this.$('strength').getAttribute('aria-valuetext') !== label) this.$('strength').setAttribute('aria-valuetext', label);
   }
 
-  update(renderer, { locked = false, restoring = false } = {}) {
-    this.renderer = renderer; this.state = { locked, restoring };
+  update(renderer, { locked = false, restoring = false, lockMessage = '解析中は設定を変更できません。' } = {}) {
+    this.renderer = renderer; this.state = { locked, restoring, lockMessage };
     const $ = this.$, settings = renderer.settings;
     if (locked) this.strengthDraft = null;
     for (const id of ['theme', 'trail', 'strength']) $(id).disabled = locked;
@@ -80,7 +80,7 @@ export class SettingsPanel {
     }
     const busy = String(locked || restoring);
     if ($('settings-panel').getAttribute('aria-busy') !== busy) $('settings-panel').setAttribute('aria-busy', busy);
-    const note = locked ? '解析中は設定を変更できません。' : restoring ? '選んだ設定で描き直しています…' : '設定は曲全体に反映されます。';
+    const note = locked ? lockMessage : restoring ? '選んだ設定で描き直しています…' : '設定は曲全体に反映されます。';
     if ($('settings-note').textContent !== note) $('settings-note').textContent = note;
   }
 }
