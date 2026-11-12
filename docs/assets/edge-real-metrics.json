@@ -1,0 +1,38 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0",
+  "checks": [
+    {
+      "title": "実音源 1",
+      "passed": true,
+      "fileType": "MP3",
+      "inputBytes": 4877355,
+      "duration": 212.36,
+      "channels": 2,
+      "sampleRate": 48000,
+      "pcmBytes": 81546240,
+      "loadMs": 1674,
+      "style": "organic",
+      "size": [
+        720,
+        1280
+      ],
+      "current": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 781735,
+        "milliseconds": 250.2
+      },
+      "complete": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 941603,
+        "milliseconds": 467.6
+      },
+      "videoSupport": {
+        "supported": true,
+        "mimeType": "video/webm;codecs=vp8,opus",
+        "reason": ""
+      }
+    }
+  ]
+}
