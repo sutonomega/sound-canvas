@@ -94,6 +94,12 @@ test('support checks explain missing recorder, canvas, audio and WebM format', a
   const unsupported = await fixture({ unsupported: true }); assert.equal(unsupported.video.canStart, false);
   assert.match(unsupported.video.support.reason, /形式/);
 });
+
+test('another exporter owns the studio lock, so recording cannot start', async () => {
+  const f = await fixture(); f.studio.exporting = true;
+  assert.equal(f.video.canStart, false); assert.equal(await f.video.start(), undefined);
+  assert.equal(f.recorders.length, 0); assert.equal(f.studio.exporting, true);
+});
 test('normal recording includes both tracks, final data, final partial frame and restores a paused position', async () => {
   const f = await fixture(); await f.studio.togglePlay(); const { done } = await f.boot();
   assert.equal(f.audio.source, null); assert.equal(f.studio.canSave, false); assert.equal(f.studio.canConfigure, false);
