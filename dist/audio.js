@@ -1,0 +1,15 @@
+// Audio analysis is independent of rendering. All features are sampled at 30 Hz.
+export const FPS=30;
+export class AudioEngine {
+ constructor(){this.context=null;this.source=null;this.offset=0;this.started=0;this.playing=false;this.buffer=null;this.seed=1;}
+ async init(){this.context??=new AudioContext();await this.context.resume();}
+ stop(){if(this.source){this.source.onended=null;this.source.stop();this.source.disconnect();this.source=null;}this.playing=false;}
+ get time(){return this.buffer?Math.min(this.buffer.duration,this.playing?this.offset+this.context.currentTime-this.started:this.offset):0;}
+ pause(){this.offset=this.time;this.stop();}
+ play(){if(!this.buffer)return;if(this.offset>=this.buffer.duration)this.offset=0;this.stop();this.source=this.context.createBufferSource();this.source.buffer=this.buffer;this.source.connect(this.context.destination);this.started=this.context.currentTime;this.playing=true;this.source.onended=()=>{this.offset=this.buffer.duration;this.playing=false;};this.source.start(0,this.offset);}
+ seek(t){const active=this.playing;this.pause();this.offset=t;if(active)this.play();}
+ async load(bytes){await this.init();const decoded=await this.context.decodeAudioData(bytes.slice(0));await this.analyze(decoded);}
+ async demo(){await this.init();const rate=22050,duration=36,b=this.context.createBuffer(1,rate*duration,rate),a=b.getChannelData(0);let r=721;for(let i=0;i<a.length;i++){const t=i/rate,beat=t%0.5,chord=[130.81,164.81,196,146.83][Math.floor(t/9)%4];r=(Math.imul(r,1664525)+1013904223)>>>0;const fade=Math.min(1,t/2,(duration-t)/3);a[i]=fade*(.22*Math.sin(2*Math.PI*(48*beat+1.7*(1-Math.exp(-beat*35))))*Math.exp(-beat*12)+.09*Math.sin(2*Math.PI*chord*t)+.065*Math.sin(2*Math.PI*chord*1.5*t)+.05*Math.sin(2*Math.PI*chord*4*t)*Math.exp(-(t%.25)*14)+.035*(r/2147483648-1)*Math.exp(-(t%.25)*65));}await this.analyze(b);}
+ async analyze(buffer){const count=Math.ceil(buffer.duration*FPS),features=[],rate=buffer.sampleRate,channels=Array.from({length:buffer.numberOfChannels},(_,i)=>buffer.getChannelData(i));let lo=0,hi=0,seed=2166136261,prev=[0,0,0,0],avg=0;const al=1-Math.exp(-2*Math.PI*200/rate),ah=1-Math.exp(-2*Math.PI*2400/rate);for(let f=0;f<count;f++){let total=0,low=0,mid=0,high=0;const start=Math.floor(f*rate/FPS),end=Math.min(buffer.length,Math.floor((f+1)*rate/FPS));for(let i=start;i<end;i++){let x=0;for(const ch of channels)x+=ch[i]/channels.length;lo+=al*(x-lo);hi+=ah*(x-hi);total+=x*x;low+=lo*lo;mid+=(hi-lo)**2;high+=(x-hi)**2;if(i%101===0)seed=Math.imul(seed^Math.round(x*32767),16777619)>>>0;}let v=[total,low,mid,high].map(x=>Math.sqrt(x/Math.max(1,end-start)));avg=avg*.96+v[1]*.04;const beat=v[1]>avg*1.35&&v[1]>.015;v=v.map((x,i)=>prev[i]=prev[i]*.55+x*.45);features.push({volume:v[0],bass:v[1],mid:v[2],high:v[3],beat});if(f%300===0)await new Promise(r=>setTimeout(r,0));}const peak=Math.max(.02,...features.map(x=>x.volume));for(const x of features)for(const k of ['volume','bass','mid','high'])x[k]=Math.min(1,x[k]/peak);this.buffer=buffer;this.features=features;this.seed=seed;this.offset=0;}
+ feature(frame){return this.features[Math.min(frame,this.features.length-1)];}
+}
