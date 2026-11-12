@@ -212,3 +212,9 @@ CanvasをcaptureStream(0)で取り込み、音声1本と映像1本をMediaStream
 ブラウザ試験は同じ実装で合成音を録画し、WebMのTrackEntryを解析してVP8映像とOpus音声、解像度を確認する。音声をdecodeAudioDataで再デコードしてRMSを測り、video要素で最後まで再生する。元の位置の画素・内部状態も比較する。同期の100ms目標、全スタイル×全比率の横断確認、長曲の性能は#16/#18で測る。
 
 APIの根拠は[Media Capture from DOM Elements](https://www.w3.org/TR/mediacapture-fromelement/)と[MediaStream Recording](https://w3c.github.io/mediacapture-record/)を参照する。
+
+## 保存動画の測定（Issue #16）
+
+製品のRenderer・音声時計・VideoExporterをそのまま使い、試験専用beatマーカーで独立した同期測定を行う。試験用webm-inspect.jsがコンテナ時刻・CodecDelay・Colourを読み、WebCodecsへ明示して実際の圧縮映像と音声をデコードする。画質は共通Rendererの参照画像と全画面・前景・端を比較する。コンテナの色指定を省略したデコードを参照にしない。時刻付きデコード・測定コードはtests内に置き、配信用distには追加しない。
+
+3比率の同期、4スタイル×3比率の冒頭付近・中間・最終画面、450msの処理停止を実測した。同期と画質の許容値・実測値・参照時刻候補の扱いは[確認記録](issue-16-validation.md)を正とする。実際の非表示通知は自動操作環境で発生せず未確認。録画中止の6ステップ閾値は同期精度の保証へ置き換えず、長曲・通常ブラウザ・他環境は#18で確認する。

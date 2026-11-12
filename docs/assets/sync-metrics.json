@@ -1,0 +1,1015 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "duration": 3.113,
+  "pulses": [
+    0.2,
+    1.4,
+    2.7
+  ],
+  "thresholds": {
+    "syncMs": 100,
+    "psnr": 30,
+    "foregroundPsnr": 20,
+    "foregroundRecall": 0.75,
+    "edgeMae": 8,
+    "referenceWindowFrames": 3
+  },
+  "sync": [
+    {
+      "width": 720,
+      "height": 1280,
+      "audioOnsets": [
+        0.35,
+        1.55,
+        2.85
+      ],
+      "videoOnsets": [
+        0.338,
+        1.539,
+        2.838
+      ],
+      "differencesMs": [
+        -12,
+        -11,
+        -12
+      ],
+      "bytes": 178144
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "audioOnsets": [
+        0.345,
+        1.545,
+        2.845
+      ],
+      "videoOnsets": [
+        0.334,
+        1.528,
+        2.834
+      ],
+      "differencesMs": [
+        -11,
+        -17,
+        -11
+      ],
+      "bytes": 176304
+    },
+    {
+      "width": 1080,
+      "height": 1080,
+      "audioOnsets": [
+        0.352,
+        1.552,
+        2.852
+      ],
+      "videoOnsets": [
+        0.34,
+        1.541,
+        2.84
+      ],
+      "differencesMs": [
+        -12,
+        -11,
+        -12
+      ],
+      "bytes": 206591
+    }
+  ],
+  "quality": [
+    {
+      "style": "organic",
+      "width": 720,
+      "height": 1280,
+      "bytes": 733909,
+      "audioOriginSeconds": 0.139,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 720,
+          "height": 1280,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.578,
+          "estimatedSongTime": 0.439,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.568,
+          "mae": 0.766,
+          "foregroundPixels": 949,
+          "foregroundPsnr": 33.864,
+          "foregroundRecall": 0.996,
+          "edgeMae": 0.678,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.683,
+          "estimatedSongTime": 1.544,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.342,
+          "mae": 0.779,
+          "foregroundPixels": 2168,
+          "foregroundPsnr": 33.41,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.691,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.224,
+          "estimatedSongTime": 3.085,
+          "referenceOffsetMs": 0,
+          "psnr": 47.146,
+          "mae": 0.778,
+          "foregroundPixels": 4234,
+          "foregroundPsnr": 33.419,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.678,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "organic",
+      "width": 1280,
+      "height": 720,
+      "bytes": 735612,
+      "audioOriginSeconds": 0.137,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1280,
+          "height": 720,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.582,
+          "estimatedSongTime": 0.445,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.522,
+          "mae": 0.77,
+          "foregroundPixels": 936,
+          "foregroundPsnr": 33.676,
+          "foregroundRecall": 0.998,
+          "edgeMae": 0.681,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.679,
+          "estimatedSongTime": 1.542,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.285,
+          "mae": 0.783,
+          "foregroundPixels": 2187,
+          "foregroundPsnr": 33.176,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.693,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.221,
+          "estimatedSongTime": 3.084,
+          "referenceOffsetMs": 0,
+          "psnr": 47.106,
+          "mae": 0.783,
+          "foregroundPixels": 4109,
+          "foregroundPsnr": 33.384,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.681,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "organic",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 850032,
+      "audioOriginSeconds": 0.142,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1080,
+          "height": 1080,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.58,
+          "estimatedSongTime": 0.438,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.6,
+          "mae": 0.767,
+          "foregroundPixels": 1654,
+          "foregroundPsnr": 35.213,
+          "foregroundRecall": 0.995,
+          "edgeMae": 0.705,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.677,
+          "estimatedSongTime": 1.535,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.44,
+          "mae": 0.78,
+          "foregroundPixels": 3639,
+          "foregroundPsnr": 35.007,
+          "foregroundRecall": 0.997,
+          "edgeMae": 0.716,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.225,
+          "estimatedSongTime": 3.083,
+          "referenceOffsetMs": 0,
+          "psnr": 47.243,
+          "mae": 0.779,
+          "foregroundPixels": 6754,
+          "foregroundPsnr": 34.951,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.705,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "geometric",
+      "width": 720,
+      "height": 1280,
+      "bytes": 778145,
+      "audioOriginSeconds": 0.143,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 720,
+          "height": 1280,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.583,
+          "estimatedSongTime": 0.44,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.494,
+          "mae": 0.771,
+          "foregroundPixels": 910,
+          "foregroundPsnr": 33.19,
+          "foregroundRecall": 0.97,
+          "edgeMae": 0.678,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.68,
+          "estimatedSongTime": 1.537,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.237,
+          "mae": 0.785,
+          "foregroundPixels": 1930,
+          "foregroundPsnr": 32.417,
+          "foregroundRecall": 0.876,
+          "edgeMae": 0.691,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.228,
+          "estimatedSongTime": 3.085,
+          "referenceOffsetMs": 0,
+          "psnr": 47.109,
+          "mae": 0.783,
+          "foregroundPixels": 2047,
+          "foregroundPsnr": 30.947,
+          "foregroundRecall": 0.76,
+          "edgeMae": 0.678,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "geometric",
+      "width": 1280,
+      "height": 720,
+      "bytes": 782597,
+      "audioOriginSeconds": 0.147,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1280,
+          "height": 720,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.583,
+          "estimatedSongTime": 0.436,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.451,
+          "mae": 0.776,
+          "foregroundPixels": 910,
+          "foregroundPsnr": 33.194,
+          "foregroundRecall": 0.968,
+          "edgeMae": 0.681,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.68,
+          "estimatedSongTime": 1.533,
+          "referenceOffsetMs": 66.667,
+          "psnr": 47.199,
+          "mae": 0.789,
+          "foregroundPixels": 1930,
+          "foregroundPsnr": 32.457,
+          "foregroundRecall": 0.876,
+          "edgeMae": 0.693,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.222,
+          "estimatedSongTime": 3.075,
+          "referenceOffsetMs": 0,
+          "psnr": 47.073,
+          "mae": 0.787,
+          "foregroundPixels": 2046,
+          "foregroundPsnr": 30.959,
+          "foregroundRecall": 0.761,
+          "edgeMae": 0.681,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "geometric",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 955536,
+      "audioOriginSeconds": 0.151,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1080,
+          "height": 1080,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.579,
+          "estimatedSongTime": 0.428,
+          "referenceOffsetMs": 66.667,
+          "psnr": 47.431,
+          "mae": 0.776,
+          "foregroundPixels": 2290,
+          "foregroundPsnr": 34.247,
+          "foregroundRecall": 0.972,
+          "edgeMae": 0.705,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.683,
+          "estimatedSongTime": 1.532,
+          "referenceOffsetMs": 66.667,
+          "psnr": 47.065,
+          "mae": 0.792,
+          "foregroundPixels": 4253,
+          "foregroundPsnr": 32.578,
+          "foregroundRecall": 0.954,
+          "edgeMae": 0.717,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.225,
+          "estimatedSongTime": 3.074,
+          "referenceOffsetMs": 0,
+          "psnr": 46.952,
+          "mae": 0.789,
+          "foregroundPixels": 5455,
+          "foregroundPsnr": 32.216,
+          "foregroundRecall": 0.907,
+          "edgeMae": 0.705,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "particles",
+      "width": 720,
+      "height": 1280,
+      "bytes": 718434,
+      "audioOriginSeconds": 0.135,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 720,
+          "height": 1280,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.581,
+          "estimatedSongTime": 0.446,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.667,
+          "mae": 0.763,
+          "foregroundPixels": 45,
+          "foregroundPsnr": 32.424,
+          "foregroundRecall": 0.889,
+          "edgeMae": 0.678,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.678,
+          "estimatedSongTime": 1.543,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.51,
+          "mae": 0.775,
+          "foregroundPixels": 488,
+          "foregroundPsnr": 32.435,
+          "foregroundRecall": 0.928,
+          "edgeMae": 0.691,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.219,
+          "estimatedSongTime": 3.084,
+          "referenceOffsetMs": 0,
+          "psnr": 47.339,
+          "mae": 0.775,
+          "foregroundPixels": 1304,
+          "foregroundPsnr": 31.674,
+          "foregroundRecall": 0.909,
+          "edgeMae": 0.678,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "particles",
+      "width": 1280,
+      "height": 720,
+      "bytes": 728289,
+      "audioOriginSeconds": 0.136,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1280,
+          "height": 720,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.583,
+          "estimatedSongTime": 0.447,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.622,
+          "mae": 0.767,
+          "foregroundPixels": 45,
+          "foregroundPsnr": 32.585,
+          "foregroundRecall": 0.978,
+          "edgeMae": 0.681,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.68,
+          "estimatedSongTime": 1.544,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.475,
+          "mae": 0.778,
+          "foregroundPixels": 472,
+          "foregroundPsnr": 32.373,
+          "foregroundRecall": 0.943,
+          "edgeMae": 0.693,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.222,
+          "estimatedSongTime": 3.086,
+          "referenceOffsetMs": 0,
+          "psnr": 47.315,
+          "mae": 0.777,
+          "foregroundPixels": 1277,
+          "foregroundPsnr": 31.755,
+          "foregroundRecall": 0.916,
+          "edgeMae": 0.681,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "particles",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 844495,
+      "audioOriginSeconds": 0.146,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1080,
+          "height": 1080,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.578,
+          "estimatedSongTime": 0.432,
+          "referenceOffsetMs": 66.667,
+          "psnr": 47.697,
+          "mae": 0.764,
+          "foregroundPixels": 111,
+          "foregroundPsnr": 33.561,
+          "foregroundRecall": 0.955,
+          "edgeMae": 0.705,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.682,
+          "estimatedSongTime": 1.536,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.516,
+          "mae": 0.778,
+          "foregroundPixels": 1029,
+          "foregroundPsnr": 33.551,
+          "foregroundRecall": 0.98,
+          "edgeMae": 0.717,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.216,
+          "estimatedSongTime": 3.07,
+          "referenceOffsetMs": 0,
+          "psnr": 47.284,
+          "mae": 0.779,
+          "foregroundPixels": 2761,
+          "foregroundPsnr": 33.003,
+          "foregroundRecall": 0.967,
+          "edgeMae": 0.705,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "watercolor",
+      "width": 720,
+      "height": 1280,
+      "bytes": 887111,
+      "audioOriginSeconds": 0.141,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 720,
+          "height": 1280,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.578,
+          "estimatedSongTime": 0.437,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.638,
+          "mae": 0.766,
+          "foregroundPixels": 6790,
+          "foregroundPsnr": 44.763,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.678,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.678,
+          "estimatedSongTime": 1.537,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.48,
+          "mae": 0.78,
+          "foregroundPixels": 17301,
+          "foregroundPsnr": 42.917,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.691,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.227,
+          "estimatedSongTime": 3.086,
+          "referenceOffsetMs": 0,
+          "psnr": 47.554,
+          "mae": 0.771,
+          "foregroundPixels": 25799,
+          "foregroundPsnr": 43.815,
+          "foregroundRecall": 1,
+          "edgeMae": 0.678,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "watercolor",
+      "width": 1280,
+      "height": 720,
+      "bytes": 875962,
+      "audioOriginSeconds": 0.133,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1280,
+          "height": 720,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.578,
+          "estimatedSongTime": 0.445,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.576,
+          "mae": 0.771,
+          "foregroundPixels": 6760,
+          "foregroundPsnr": 44.949,
+          "foregroundRecall": 0.998,
+          "edgeMae": 0.681,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.682,
+          "estimatedSongTime": 1.549,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.428,
+          "mae": 0.784,
+          "foregroundPixels": 17404,
+          "foregroundPsnr": 42.927,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.693,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.216,
+          "estimatedSongTime": 3.083,
+          "referenceOffsetMs": 0,
+          "psnr": 47.459,
+          "mae": 0.779,
+          "foregroundPixels": 26416,
+          "foregroundPsnr": 43.77,
+          "foregroundRecall": 1,
+          "edgeMae": 0.681,
+          "referenceFrame": 94
+        }
+      ]
+    },
+    {
+      "style": "watercolor",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 1413604,
+      "audioOriginSeconds": 0.148,
+      "tracks": [
+        {
+          "delayNs": 0,
+          "channels": 1,
+          "number": 1,
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1080,
+          "height": 1080,
+          "colorSpace": {
+            "matrix": "bt709",
+            "fullRange": true,
+            "transfer": "iec61966-2-1",
+            "primaries": "bt709"
+          }
+        },
+        {
+          "delayNs": 0,
+          "channels": 2,
+          "number": 2,
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "samples": [
+        {
+          "position": "early",
+          "encodedTime": 0.579,
+          "estimatedSongTime": 0.431,
+          "referenceOffsetMs": 66.667,
+          "psnr": 47.674,
+          "mae": 0.767,
+          "foregroundPixels": 15772,
+          "foregroundPsnr": 45.655,
+          "foregroundRecall": 0.999,
+          "edgeMae": 0.705,
+          "referenceFrame": 14
+        },
+        {
+          "position": "middle",
+          "encodedTime": 1.683,
+          "estimatedSongTime": 1.535,
+          "referenceOffsetMs": 33.333,
+          "psnr": 47.465,
+          "mae": 0.786,
+          "foregroundPixels": 33463,
+          "foregroundPsnr": 42.694,
+          "foregroundRecall": 1,
+          "edgeMae": 0.717,
+          "referenceFrame": 47
+        },
+        {
+          "position": "end",
+          "encodedTime": 3.217,
+          "estimatedSongTime": 3.069,
+          "referenceOffsetMs": 0,
+          "psnr": 47.451,
+          "mae": 0.785,
+          "foregroundPixels": 45495,
+          "foregroundPsnr": 43.663,
+          "foregroundRecall": 1,
+          "edgeMae": 0.705,
+          "referenceFrame": 94
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "title": "同期マーカー / 720×1280：先頭・中間・終端付近",
+      "passed": true
+    },
+    {
+      "title": "同期マーカー / 1280×720：先頭・中間・終端付近",
+      "passed": true
+    },
+    {
+      "title": "同期マーカー / 1080×1080：先頭・中間・終端付近",
+      "passed": true
+    },
+    {
+      "title": "organic / 720×1280：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "organic / 1280×720：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "organic / 1080×1080：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "geometric / 720×1280：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "geometric / 1280×720：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "geometric / 1080×1080：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "particles / 720×1280：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "particles / 1280×720：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "particles / 1080×1080：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "watercolor / 720×1280：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "watercolor / 1280×720：冒頭付近・中間・最終画面",
+      "passed": true
+    },
+    {
+      "title": "watercolor / 1080×1080：冒頭付近・中間・最終画面",
+      "passed": true
+    }
+  ],
+  "analysisVersion": "sc-analysis-3",
+  "markerBeatFrames": [
+    6,
+    42,
+    81
+  ],
+  "total": 15,
+  "passed": 15
+}
