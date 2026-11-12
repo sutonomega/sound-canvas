@@ -1,65 +1,36 @@
-# Sound Canvas 0.1
+# Sound Canvas
 
-公開アプリ: https://sutonomega.github.io/sound-canvas/
+MP3・WAVから、音楽に反応する光の軌跡と抽象アートを作るブラウザアプリです。音源は端末内で処理します。
 
-以下は開発中のdev向けの説明です。公開版はmainから配信します。
+[公開アプリ](https://sutonomega.github.io/sound-canvas/)はmainから配信します。**2026-11-13時点の公開版は0.1、ここにあるdevの説明はv1.0公開候補向け**です。devへのマージだけでは公開されません。
 
-## 開発計画と進め方
+## 使う・保存する
 
-- [v1.0までのロードマップ](docs/roadmap.md)
-- [プロジェクト推進・レビュー対応ガイド](docs/project-workflow.md)
-- [公開範囲と完成条件](docs/service-scope.md)・[機能仕様](docs/spec.md)・[設計](docs/design.md)
+1. 「楽曲をドロップ / 選択」でMP3・WAVを選び、解析後に ▶ を押します。デモでも試せます。
+2. 4スタイル、3テーマ、反応の強さ、軌跡、比率を選びます。初期比率は9:16です。
+3. 現在／曲末のPNGを生成、または音声付き全曲MVを録画し、完了後の保存リンクを押します。
+
+[利用ガイド](docs/user-guide.md)に操作、キーボード、保存、音源の扱い、不具合報告をまとめています。[録画ガイド](docs/recording-guide.md)も参照してください。録画は曲と同程度の時間が必要です。画面を表示したまま待ち、閉じる前に成果物を保存してください。自動保存はありません。
+
+Windows / Chrome 157・Edge 157での確認範囲と未確認環境は[リリース確認記録](docs/release-checklist.md)を参照してください。WebM出力に対応し、MP4は未実装です。長時間・大容量音源はメモリや描画性能の制約があります。利用・公開する素材の権利と利用元の規約を確認してください。
+
+## ローカル起動・開発
+
+新しく取得する場合は`git clone --branch dev https://github.com/sutonomega/sound-canvas.git`でdevを選び、リポジトリのフォルダで実行します。
+
+```sh
+python -m http.server 8765 --bind 127.0.0.1 --directory dist
+```
+
+[http://127.0.0.1:8765/](http://127.0.0.1:8765/)を開きます。Python 3を使い、終了はCtrl+Cです。直接HTMLを開く方法では動作しません。ビルド・依存パッケージのインストールは不要です。Node.js 24で`npm test`を実行できます。
+
+[開発・検証・公開ガイド](docs/development-and-release.md)に環境準備、変更、dev宛PR、mainへの公開、復旧をまとめています。mainへのpushで[公開ワークフロー](.github/workflows/pages.yml)が`dist/`をGitHub Pagesへ配信します。v1.0のCI・公開整備は[Issue #21](https://github.com/sutonomega/sound-canvas/issues/21)で進めます。
+
+## 構成と計画
+
+音楽解析、固定刻みの描画、独立したスタイル、制作制御、PNG・動画出力を分離しています。新スタイルは共通契約とレジストリで追加します。同じ曲・設定・時刻の再現を目指しますが、ブラウザ間の画素一致は保証しません。
+
+- [仕様](docs/spec.md)・[設計と実装構成](docs/design.md)・[公開範囲](docs/service-scope.md)
+- [ロードマップ](docs/roadmap.md)・[プロジェクト推進・レビュー対応](docs/project-workflow.md)
 - [Issue一覧](https://github.com/sutonomega/sound-canvas/issues)・[マイルストーン](https://github.com/sutonomega/sound-canvas/milestones)
-
-日常開発は作業ブランチから `dev` 宛てのPRで確認します。公開時に `dev` から `main` へ反映します。
-
-## GitHub Pages への自動公開
-
-`main` ブランチへの push で `.github/workflows/pages.yml` が実行され、`dist/` を GitHub Pages に公開します。ビルド・パッケージのインストールは不要です。公開結果はリポジトリの Actions で確認できます。楽曲ファイルや認証情報は含めないでください。
-
-MP3 / WAV をブラウザ内で解析し、音楽の進行に応じて光の軌跡を描く試作品です。楽曲はサーバーに送信しません。
-
-## 使い方
-
-1. 配信先のページを開き「楽曲をドロップ / 選択」でファイルを選びます。
-2. 解析完了後に ▶ を押します。「デモを体験する」でも試せます。
-3. スタイル・テーマ・反応・軌跡・比率を変更できます。設定変更やシークでは、その位置までの軌跡を復元します。
-4. 「現在のアートをPNGにする」または「曲末の完成アートをPNGにする」を選び、準備後に保存リンクを押します。生成時に一時停止し、完成アートを作っても再生位置は変わりません。生成中は中止できます。
-5. 「音声付きMVを録画する」で冒頭から全曲を録画し、完了後に「直前のMVを保存（WebM）」を押します。曲の長さと同程度の時間がかかるので、この画面を表示したまま待ちます。中止や終了後は元の位置へ戻って停止します。
-
-Tabで操作欄へ進み、ボタンはEnter/Space、曲選択はSpaceで操作できます。再生位置は矢印で1秒、Shift＋矢印・Page Up / Downで10秒、Home/Endで曲頭/曲末へ移動できます。保存できないときは保存欄に理由を表示します。[操作性の確認範囲](docs/issue-19-validation.md)を参照してください。
-
-## ローカル実行
-
-Python がある場合、このフォルダで `python -m http.server 8765 --directory dist` を実行して http://localhost:8765 を開きます。ファイルを直接開く方式では JavaScript モジュールが動作しません。
-
-## 構成
-
-- dist/audio.js: Web Audio による読み込み、再生、事前解析。30 Hz の音量・低中高域・簡易ビート。
-- dist/analysis.js: チャンネル別の帯域解析、平滑化、簡易ビート・盛り上がり、固定シードと共通解析データ。
-- dist/renderer.js: 固定シード・固定時間刻みの3層合成と状態の保存/復元。
-- dist/app.js: 画面操作とPNG保存の接続。
-- dist/png.js: 現在/曲末の専用描画、PNG変換、生成中の排他と中止。
-- dist/controller.js: 読込候補の確定、処理の中止・世代管理、再生意図とシーク復元の制御。
-- dist/styles/: 共通インターフェースに従う独立した描画スタイル。
-- dist/timing.js・themes.js: 共通の時間刻みとテーマ定義。
-
-## 開発時の確認
-
-Node.js 24 で `npm test` を実行すると、音楽解析、読込・復元の競合、失敗/中止後の復帰、曲末からの再生などを確認できます。追加パッケージのインストールは不要です。
-
-実Canvasの画素比較・PNG確認は[描画基盤の確認手順](docs/issue-7-validation.md)を参照してください。新スタイルは `dist/styles/index.js` に定義を登録し、[設計書](docs/design.md)の共通契約に従って追加します。
-
-有機的な曲線の音楽反応・長時間蓄積の[比較画像と確認手順](docs/issue-8-validation.md)も用意しています。
-
-幾何学模様も設定欄で選択できます。[比較画像と確認手順](docs/issue-9-validation.md)を参照してください。粒子アートも選択できます。[粒子の比較画像と確認手順](docs/issue-10-validation.md)を参照してください。4スタイルは同じ解析値・描画基盤を利用します。水彩も選択できます。[比較画像と確認手順](docs/issue-11-validation.md)を参照してください。
-
-[設定の統合確認](docs/issue-12-validation.md)では、4スタイルの全216通りと連続変更を検証しています。色見本は選択テーマに連動し、同じ設定の選び直しでは描き直しません。
-
-同じブラウザで同じ曲・設定・時刻なら同じ描画を目指しています。[再現性の確認記録](docs/issue-13-validation.md)に順再生・停止再開・遅延・シークの画素比較をまとめています。音声デコードやCanvasの実装差によりブラウザ間で画素の完全一致は保証しません。近い位置へのシークでは描画状態を再利用し、進捗表示と「中止して最初に戻る」から操作できます。[シーク性能と保持量の確認](docs/issue-14-validation.md)を参照してください。初回や保存状態が残っていない位置への移動は、再計算に時間がかかります。音源全体をメモリに読み込むため、長時間の大容量WAVには向きません。
-
-現在のdevでは4スタイルと音声付きWebM録画に対応しています。[録画の確認記録とサンプル](docs/issue-15-validation.md)、[同期・画質・3比率の測定](docs/issue-16-validation.md)、[録画ガイド](docs/recording-guide.md)を参照してください。短い合成音で同期差は最大17ms、4スタイル×3比率の画質確認は成功しました。非表示通知・大きな描画遅延を検出すると中止し、途中動画を保存しません。通常Edgeで実際の非表示中断も確認しました。自動操作環境では非表示通知が発生しない場合があります。長曲や他ブラウザで同じ精度を保証するものではありません。MP4・プリセット保存は未実装です。追加ライブラリやビルドは不要です。
-
-PNGは現在画像と完成アートを別に生成できます。[4スタイル・3比率・両軌跡の保存確認](docs/issue-17-validation.md)を参照してください。保存専用の描画面を使い、元のプレビューと位置を保ちます。長曲では再計算に時間と追加メモリが必要です。
-
-[実音源とリリース確認記録](docs/release-checklist.md)には、約3分半〜5分のMP3 4曲の全曲MV、10分/大容量/無音/短いWAV、破損音源からの復帰、ブラウザごとの検証範囲をまとめています。初期版の確認対象はWindows / Chrome 157・Edge 157です。Firefox・Safariや他OSは未確認です。実音源・曲名・音声入り成果物はリポジトリに含めていません。
+- [再現性](docs/issue-13-validation.md)・[同期と画質](docs/issue-16-validation.md)・[PNG保存](docs/issue-17-validation.md)・[操作性](docs/issue-19-validation.md)

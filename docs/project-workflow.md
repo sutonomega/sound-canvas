@@ -1,5 +1,7 @@
 # プロジェクト推進・レビュー対応ガイド
 
+起動からPR・公開・復旧までの具体的な操作は[開発・公開ガイド](development-and-release.md)、利用操作は[利用ガイド](user-guide.md)を参照する。
+
 ## 基本方針
 
 [mahjong-zukanの開発手順](https://github.com/sutonomega/mahjong-zukan/blob/main/docs/project-workflow.md)をSound Canvas向けに適用する。個人開発でも、Issueの目的・文書・実差分・確認結果を辿れるようにする。
