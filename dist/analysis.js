@@ -1,5 +1,6 @@
 // Analysis is independent of AudioContext, playback, rendering and the DOM.
-export const FEATURE_RATE = 30;
+import { STEP_RATE } from './timing.js';
+export const FEATURE_RATE = STEP_RATE;
 export const ANALYSIS_VERSION = 'sc-analysis-2';
 export const ANALYSIS_SETTINGS = Object.freeze({
   lowHz: 200, highHz: 2400, q: Math.SQRT1_2,

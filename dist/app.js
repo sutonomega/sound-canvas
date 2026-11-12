@@ -76,6 +76,7 @@ $('png').onclick = () => {
 };
 
 // Illustrative initial canvas; replaced by the actual song after loading.
-for (let i = 0; i < 1150; i++) renderer.step({ volume: .6, bass: .4, mid: .5, high: .3, beat: i % 16 === 0 });
+for (let i = 0; i < 180; i++) renderer.step({ volume: .6, bass: .4, mid: .5, high: .3, beat: false }, { present: false });
+renderer.present();
 function tick() { studio.tick(); updateUI(); requestAnimationFrame(tick); }
 tick();

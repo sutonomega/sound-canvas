@@ -29,7 +29,11 @@ jobs:
           node --check dist/analysis.js
           node --check dist/controller.js
           node --check dist/renderer.js
-      - name: Check playback and operation races
+          node --check dist/timing.js
+          node --check dist/themes.js
+          node --check dist/styles/index.js
+          node --check dist/styles/organic.js
+      - name: Check analysis, playback and rendering
         run: node --test tests/*.test.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
