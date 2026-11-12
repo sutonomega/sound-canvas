@@ -1,6 +1,6 @@
 # Sound Canvas 利用ガイド
 
-このガイドは **devのv1.0公開候補** の画面を対象にしています。2026-11-13時点の[公開アプリ](https://sutonomega.github.io/sound-canvas/)はmainの0.1版で、操作・保存機能が異なります。公開前の版は[ローカル起動手順](development-and-release.md)で利用できます。
+このガイドは **v1.0.0** の画面を対象にしています。[公開アプリ](https://sutonomega.github.io/sound-canvas/)の下部で版を確認してください。devの変更はmainへの公開まで反映されません。公開状況は[リリース記録](v1.0-release.md)、手元で試す場合は[ローカル起動手順](development-and-release.md)を参照してください。
 
 ## 最初の一曲
 
