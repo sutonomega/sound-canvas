@@ -2,7 +2,7 @@ import { palettes } from '../themes.js';
 
 const TAU = Math.PI * 2;
 export const geometricStyle = Object.freeze({
-  id: 'geometric', version: 'geometric-1',
+  id: 'geometric', version: 'geometric-1', maxTransient: 24,
   label: '幾何学模様', description: '低音で広がる、光のスピログラフ', symbol: '◎',
   create() {
     let width, height, scale, settings, randomState, petals, colorOffset;
