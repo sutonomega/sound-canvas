@@ -1,10 +1,12 @@
+import { CheckpointCache, CHECKPOINT_FRAMES } from './checkpoints.js';
 import { frameCount } from './timing.js';
 export { frameCount } from './timing.js';
 
 // Owns operation generations and playback intent, independent of the DOM.
 export class StudioController {
-  constructor(audio, renderer, notify = () => {}, yieldTask = () => new Promise(resolve => setTimeout(resolve, 0))) {
-    Object.assign(this, { audio, renderer, notify, yieldTask });
+  constructor(audio, renderer, notify = () => {}, yieldTask = () => new Promise(resolve => setTimeout(resolve, 0)), { now = () => performance.now(), budgetMs = 8, batchFrames = 120, cache = new CheckpointCache(renderer) } = {}) {
+    Object.assign(this, { audio, renderer, notify, yieldTask, now, budgetMs, batchFrames, cache });
+    this.progress = null; this.lastRestore = null;
     this.operation = null; this.generation = 0; this.state = 'empty'; this.name = '';
     this.message = '曲全体を解析してから描画します。';
     this.status = '楽曲を読み込んで、制作をはじめましょう';
@@ -34,11 +36,12 @@ export class StudioController {
       analysisVersion: this.audio.analysis?.version ?? null,
       duration: this.audio.buffer?.duration ?? null,
     });
+    this.cache.sync();
   }
 
   async load(loader, name) {
     const signal = this.begin();
-    this.audio.pause(); this.resumeAfterRestore = false; this.state = 'loading';
+    this.audio.pause(); this.resumeAfterRestore = false; this.progress = null; this.state = 'loading';
     this.message = '音源を読み込んでいます…';
     this.status = '読み込み中 · 別の曲の選択・中止ができます'; this.emit();
     try {
@@ -47,7 +50,7 @@ export class StudioController {
         this.message = text; this.emit();
       } });
       if (signal.aborted) return;
-      this.audio.commit(track); this.name = name;
+      this.audio.commit(track); this.cache.clear(); this.name = name;
       this.resetRenderer(); this.state = 'ready';
       this.message = '解析完了 · 端末外へのアップロードなし';
       this.status = '再生すると、あなたの音楽が描きはじめます'; this.emit();
@@ -67,30 +70,49 @@ export class StudioController {
   }
 
   async restore(resume, status = '同じ曲・同じ設定から生まれる、同じ軌跡') {
-    const signal = this.begin();
+    const signal = this.begin(), started = this.now();
     this.audio.pause(); this.resumeAfterRestore = resume;
     if (!this.audio.buffer) {
-      this.state = 'empty'; this.status = status; this.emit(); return;
+      this.progress = null; this.state = 'empty'; this.status = status; this.emit(); return;
     }
     const target = this.target;
-    this.state = 'restoring'; this.status = '軌跡を復元しています…';
-    this.resetRenderer(); this.emit();
+    this.state = 'restoring'; this.progress = { percent: 0, targetTime: this.audio.time };
+    this.status = '軌跡を復元しています… 0%'; this.emit();
+    let startFrame = 0, cacheHit = false, slices = 0;
     try {
-      for (let frame = 0; frame < target; frame++) {
+      // Paint feedback and accept a newer request before touching large snapshot surfaces.
+      await this.yieldTask(); if (signal.aborted) return;
+      const saved = this.cache.find(target);
+      if (saved && (this.renderer.frame > target || saved.frame > this.renderer.frame)) {
+        try { this.renderer.restore(saved); cacheHit = true; }
+        catch { this.cache.clear(); this.resetRenderer(); }
+      } else if (this.renderer.frame > target) this.resetRenderer();
+      startFrame = this.renderer.frame;
+      while (this.renderer.frame < target) {
         if (signal.aborted) return;
-        this.renderer.step(this.audio.feature(frame), { present: false });
-        if (frame % 240 === 0) { this.renderer.present(); await this.yieldTask(); }
+        const sliceStart = this.now(); let steps = 0;
+        do {
+          this.renderer.step(this.audio.feature(this.renderer.frame), { present: false }); steps++;
+          if (this.renderer.frame % CHECKPOINT_FRAMES === 0) this.cache.remember();
+        } while (this.renderer.frame < target && steps < this.batchFrames && this.now() - sliceStart < this.budgetMs);
+        slices++; this.renderer.present();
+        const percent = Math.floor((this.renderer.frame - startFrame) / (target - startFrame) * 100);
+        this.progress = { percent, targetTime: this.audio.time };
+        this.status = `軌跡を復元しています… ${percent}%`; this.emit();
+        if (this.renderer.frame < target) { await this.yieldTask(); if (signal.aborted) return; }
       }
       if (signal.aborted) return;
-      this.renderer.present();
+      this.renderer.present(); this.cache.remember();
+      this.lastRestore = { targetFrame: target, startFrame, framesComputed: target - startFrame, cacheHit,
+        slices, elapsedMs: this.now() - started };
       this.state = 'ready'; this.status = status;
       if (resume && this.audio.time < this.audio.buffer.duration) this.audio.play();
     } catch (error) {
       if (signal.aborted) return;
-      this.audio.setPosition(0); this.resetRenderer(); this.state = 'ready';
+      this.cache.clear(); this.audio.setPosition(0); this.resetRenderer(); this.state = 'ready';
       this.status = '復元できませんでした。最初から再生してください。'; this.message = error.message;
     }
-    this.resumeAfterRestore = false; this.emit();
+    this.progress = null; this.resumeAfterRestore = false; this.emit();
   }
 
   async seek(time) {
@@ -107,7 +129,7 @@ export class StudioController {
     if (unchanged) { this.emit(); return; }
     const resume = this.audio.playing || (this.restoring && this.resumeAfterRestore);
     this.audio.pause();
-    try { this.renderer.configure(settings, size); }
+    try { this.renderer.configure(settings, size); this.cache.sync(); }
     catch (error) {
       this.message = error.message || '設定を適用できませんでした。';
       this.status = '設定を変更できませんでした。前の設定を使います。';
@@ -117,11 +139,15 @@ export class StudioController {
     await this.restore(resume);
   }
 
-  restart() {
+  cancelRestore() {
+    if (this.restoring) this.restart('描き直しを中止しました。最初から再生できます。');
+  }
+
+  restart(status = '最初から再生できます') {
     if (this.loading || !this.audio.buffer) return;
     this.begin(); this.audio.setPosition(0); this.resetRenderer();
-    this.resumeAfterRestore = false; this.state = 'ready';
-    this.status = '最初から再生できます'; this.emit();
+    this.progress = null; this.resumeAfterRestore = false; this.state = 'ready';
+    this.status = status; this.emit();
   }
 
   async togglePlay() {
@@ -150,9 +176,10 @@ export class StudioController {
   tick() {
     if (!this.audio.buffer || this.loading || this.restoring) return;
     const target = this.target;
-    const before = this.renderer.frame;
+    const before = this.renderer.frame; this.cache.sync();
     for (let n = 0; n < 90 && this.renderer.frame < target; n++) {
       this.renderer.step(this.audio.feature(this.renderer.frame), { present: false });
+      if (this.renderer.frame % CHECKPOINT_FRAMES === 0) this.cache.remember();
     }
     if (this.renderer.frame !== before) this.renderer.present();
     if (this.audio.time >= this.audio.buffer.duration && this.renderer.frame === target) {

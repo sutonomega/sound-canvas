@@ -40,6 +40,9 @@ function fixture(yieldTask = async () => {}) {
     },
     step(feature) { assert.ok(feature); this.frames.push(feature); this.frame++; },
     present() {},
+    snapshotKey() { return JSON.stringify({ seed: this.seed, metadata: this.metadata, settings: this.settings, width: this.canvas.width, height: this.canvas.height }); },
+    snapshot() { return { key: this.snapshotKey(), frame: this.frame, styleState: { frames: structuredClone(this.frames) }, layers: {} }; },
+    restore(saved) { assert.equal(saved.key, this.snapshotKey()); this.frame = saved.frame; this.frames = structuredClone(saved.styleState.frames); },
   };
   const studio = new StudioController(audio, renderer, () => {}, yieldTask);
   return { audio, renderer, studio };
@@ -302,4 +305,54 @@ test('aligned fractional song end is rendered once without an empty extra tick',
   const candidate = track(1, duration); candidate.features = candidate.features.slice(0, 31);
   await studio.load(async () => candidate, 'aligned'); await studio.seek(duration); studio.tick(); studio.tick();
   assert.equal(renderer.frame, 31); assert.equal(audio.time, duration); assert.equal(studio.canSave, true);
+});
+
+test('forward seek reuses the current correct frame rather than redrawing from zero', async () => {
+  const { studio, renderer } = fixture(); await studio.load(async () => track(1, 180), 'song');
+  await studio.seek(100); await studio.seek(101);
+  assert.equal(studio.lastRestore.startFrame, 3000); assert.equal(studio.lastRestore.framesComputed, 30);
+  assert.equal(renderer.frame, 3030); assert.deepEqual(renderer.frames.map(f => f.frame), Array.from({ length: 3030 }, (_, i) => i));
+});
+test('backward seek restores an earlier checkpoint and computes only the remainder', async () => {
+  const { studio, renderer } = fixture(); await studio.load(async () => track(1, 180), 'song');
+  await studio.seek(179); await studio.seek(178);
+  assert.equal(studio.lastRestore.cacheHit, true); assert.equal(studio.lastRestore.startFrame, 4950);
+  assert.equal(studio.lastRestore.framesComputed, 390); assert.equal(renderer.frame, 5340);
+  assert.deepEqual(renderer.frames.map(f => f.frame), Array.from({ length: 5340 }, (_, i) => i));
+});
+test('live playback creates checkpoints for later backward seeks', async () => {
+  const { studio, audio } = fixture(); await studio.load(async () => track(1, 30), 'song'); await studio.togglePlay();
+  audio.context.currentTime = 20; while (studio.target !== studio.renderer.frame) studio.tick();
+  await studio.seek(16); assert.equal(studio.lastRestore.startFrame, 450); assert.equal(studio.lastRestore.framesComputed, 30);
+  assert.equal(audio.playing, true);
+});
+test('configuration and successful replacement invalidate saved surfaces before reuse', async () => {
+  const { studio, renderer } = fixture(); await studio.load(async () => track(1, 30), 'old'); await studio.seek(20);
+  const previous = studio.cache.entries.map(e => e.snapshot); const gate = deferred(); studio.yieldTask = () => gate.promise;
+  const configuring = studio.configure({ theme: 'ember' }); assert.equal(studio.cache.entries.length, 0);
+  gate.resolve(); await configuring; assert.notEqual(studio.cache.entries[0].snapshot, previous[0]);
+  await studio.load(async () => track(2, 30), 'new'); assert.equal(studio.cache.entries.length, 0); assert.equal(renderer.frame, 0);
+});
+test('cancelling a long restore aborts its generation and returns to a paused clean start', async () => {
+  const gate = deferred(), { studio, audio, renderer } = fixture(() => gate.promise);
+  await studio.load(async () => track(1, 300), 'song'); const pending = studio.seek(299);
+  assert.equal(studio.restoring, true); assert.equal(studio.canSave, false); assert.equal(studio.progress.percent, 0);
+  studio.cancelRestore(); gate.resolve(); await pending;
+  assert.equal(renderer.frame, 0); assert.equal(audio.time, 0); assert.equal(audio.playing, false);
+  assert.equal(studio.progress, null); assert.equal(studio.canSave, true); assert.match(studio.status, /中止/);
+});
+test('time-budgeted restore yields with progress and newest seek wins', async () => {
+  const { studio, audio, renderer } = fixture(); let clock = 0, yields = 0; const progresses = [];
+  studio.now = () => clock += 3; studio.budgetMs = 8;
+  studio.yieldTask = async () => { yields++; }; studio.notify = () => { if (studio.progress) progresses.push(studio.progress.percent); };
+  await studio.load(async () => track(1, 30), 'song'); await Promise.all([studio.seek(29), studio.seek(2)]);
+  assert.equal(renderer.frame, 60); assert.equal(audio.time, 2); assert.ok(yields > 10);
+  assert.ok(progresses.some(n => n > 0 && n < 100)); assert.equal(studio.progress, null);
+});
+test('a rejected cache snapshot falls back to a complete deterministic rebuild', async () => {
+  const { studio, renderer } = fixture(); await studio.load(async () => track(1, 180), 'song'); await studio.seek(179);
+  const original = renderer.restore; renderer.restore = () => { throw new Error('bad snapshot'); };
+  await studio.seek(178); renderer.restore = original;
+  assert.equal(studio.lastRestore.cacheHit, false); assert.equal(studio.lastRestore.startFrame, 0); assert.equal(renderer.frame, 5340);
+  assert.deepEqual(renderer.frames.map(f => f.frame), Array.from({ length: 5340 }, (_, i) => i));
 });
