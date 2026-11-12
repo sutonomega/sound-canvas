@@ -1,8 +1,5 @@
-import { FPS } from './audio.js';
-
-export function frameCount(time, duration) {
-  return time >= duration ? Math.ceil(duration * FPS) : Math.floor(Math.max(0, time) * FPS);
-}
+import { frameCount } from './timing.js';
+export { frameCount } from './timing.js';
 
 // Owns operation generations and playback intent, independent of the DOM.
 export class StudioController {
@@ -30,6 +27,14 @@ export class StudioController {
 
   emit() { this.notify(this); }
 
+  resetRenderer() {
+    this.renderer.reset(this.audio.seed, {
+      trackKey: this.audio.analysis?.trackKey ?? null,
+      analysisVersion: this.audio.analysis?.version ?? null,
+      duration: this.audio.buffer?.duration ?? null,
+    });
+  }
+
   async load(loader, name) {
     const signal = this.begin();
     this.audio.pause(); this.resumeAfterRestore = false; this.state = 'loading';
@@ -42,7 +47,7 @@ export class StudioController {
       } });
       if (signal.aborted) return;
       this.audio.commit(track); this.name = name;
-      this.renderer.reset(this.audio.seed); this.state = 'ready';
+      this.resetRenderer(); this.state = 'ready';
       this.message = '解析完了 · 端末外へのアップロードなし';
       this.status = '再生すると、あなたの音楽が描きはじめます'; this.emit();
     } catch (error) {
@@ -68,19 +73,20 @@ export class StudioController {
     }
     const target = this.target;
     this.state = 'restoring'; this.status = '軌跡を復元しています…';
-    this.renderer.reset(this.audio.seed); this.emit();
+    this.resetRenderer(); this.emit();
     try {
       for (let frame = 0; frame < target; frame++) {
         if (signal.aborted) return;
-        this.renderer.step(this.audio.feature(frame));
-        if (frame % 240 === 0) await this.yieldTask();
+        this.renderer.step(this.audio.feature(frame), { present: false });
+        if (frame % 240 === 0) { this.renderer.present(); await this.yieldTask(); }
       }
       if (signal.aborted) return;
+      this.renderer.present();
       this.state = 'ready'; this.status = status;
       if (resume && this.audio.time < this.audio.buffer.duration) this.audio.play();
     } catch (error) {
       if (signal.aborted) return;
-      this.audio.setPosition(0); this.renderer.reset(this.audio.seed); this.state = 'ready';
+      this.audio.setPosition(0); this.resetRenderer(); this.state = 'ready';
       this.status = '復元できませんでした。最初から再生してください。'; this.message = error.message;
     }
     this.resumeAfterRestore = false; this.emit();
@@ -96,15 +102,13 @@ export class StudioController {
   async configure(settings, size) {
     if (this.loading) return;
     const resume = this.audio.playing || (this.restoring && this.resumeAfterRestore);
-    this.audio.pause(); Object.assign(this.renderer.settings, settings);
-    if (size) [this.renderer.canvas.width, this.renderer.canvas.height] = size;
-    this.renderer.reset(this.audio.seed);
+    this.audio.pause(); this.renderer.configure(settings, size);
     await this.restore(resume);
   }
 
   restart() {
     if (this.loading || !this.audio.buffer) return;
-    this.begin(); this.audio.setPosition(0); this.renderer.reset(this.audio.seed);
+    this.begin(); this.audio.setPosition(0); this.resetRenderer();
     this.resumeAfterRestore = false; this.state = 'ready';
     this.status = '最初から再生できます'; this.emit();
   }
@@ -120,7 +124,7 @@ export class StudioController {
       await this.audio.init();
       if (generation !== this.generation) return;
       if (this.audio.time >= this.audio.buffer.duration) {
-        this.audio.setPosition(0); this.renderer.reset(this.audio.seed);
+        this.audio.setPosition(0); this.resetRenderer();
       }
       this.audio.play(); this.status = '音楽に合わせて、光の軌跡を描いています';
     } catch {
@@ -135,7 +139,11 @@ export class StudioController {
   tick() {
     if (!this.audio.buffer || this.loading || this.restoring) return;
     const target = this.target;
-    for (let n = 0; n < 90 && this.renderer.frame < target; n++) this.renderer.step(this.audio.feature(this.renderer.frame));
+    const before = this.renderer.frame;
+    for (let n = 0; n < 90 && this.renderer.frame < target; n++) {
+      this.renderer.step(this.audio.feature(this.renderer.frame), { present: false });
+    }
+    if (this.renderer.frame !== before) this.renderer.present();
     if (this.audio.time >= this.audio.buffer.duration && this.renderer.frame === target) {
       this.status = '一曲のアートが完成しました。PNGで保存できます。';
     }

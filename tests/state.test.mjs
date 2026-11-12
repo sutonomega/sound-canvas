@@ -32,8 +32,14 @@ function fixture(yieldTask = async () => {}) {
   const audio = new AudioEngine(); audio.context = context();
   const renderer = {
     frame: 0, settings: {}, canvas: { width: 720, height: 1280 }, frames: [],
-    reset(seed) { this.seed = seed; this.frame = 0; this.frames = []; },
+    reset(seed, metadata) { this.seed = seed; this.metadata = metadata; this.frame = 0; this.frames = []; },
+    configure(settings, size) {
+      Object.assign(this.settings, settings);
+      if (size) [this.canvas.width, this.canvas.height] = size;
+      this.reset(this.seed, this.metadata);
+    },
     step(feature) { assert.ok(feature); this.frames.push(feature); this.frame++; },
+    present() {},
   };
   const studio = new StudioController(audio, renderer, () => {}, yieldTask);
   return { audio, renderer, studio };
@@ -220,4 +226,13 @@ test('successful analysis stays a candidate until commit and keeps the last part
   assert.equal(candidate.features.length, 4); assert.ok(progress.length);
   assert.ok(candidate.features.every(x => Number.isFinite(x.volume)));
   audio.commit(candidate); assert.equal(audio.buffer, buffer); assert.equal(audio.time, 0);
+});
+
+test('controller resets include the active track identity, version and duration', async () => {
+  const { studio, renderer } = fixture();
+  await studio.load(async () => ({ ...track(7), analysis: { trackKey: 'content-key', version: 'v2' } }), 'song');
+  const expected = { trackKey: 'content-key', analysisVersion: 'v2', duration: 12 };
+  assert.deepEqual(renderer.metadata, expected);
+  await studio.seek(1); assert.deepEqual(renderer.metadata, expected);
+  await studio.configure({ theme: 'ocean' }); assert.deepEqual(renderer.metadata, expected);
 });
