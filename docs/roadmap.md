@@ -83,9 +83,20 @@ v1.0は「自作曲を読み込み、4スタイルから選び、音声付きWeb
 
 順序や範囲を変更するときはIssue・マイルストーン・本書を一緒に更新する。MVを先行検証したい場合などは依存関係を見直し、合意した変更を記録してから進める。
 
+## M5：v1.1 設定プリセット（未実装）
+
+[M5マイルストーン](https://github.com/sutonomega/sound-canvas/milestone/5)では、設定5項目だけを端末内へ名前付き保存し、別曲でも再利用できるようにする。既存の設定・復元を使えるため、最初の拡張に選んだ。[仕様](presets-spec.md)を先にdevへ統合し、次の順で進める。
+
+1. [#45 仕様・計画](https://github.com/sutonomega/sound-canvas/issues/45)
+2. [#46 保存基盤・データ検証](https://github.com/sutonomega/sound-canvas/issues/46)
+3. [#47 画面統合・適用・削除](https://github.com/sutonomega/sound-canvas/issues/47)
+4. [#48 回帰検証・ガイド・v1.1公開](https://github.com/sutonomega/sound-canvas/issues/48)
+
+保存不可や破損が通常制作を妨げないこと、音源・描画状態を保存しないことを重視する。各Issueの条件確認・dev統合後に次へ進み、公開後の確認と正式ReleaseまでM5を閉じない。期限は設定しない。v1.0の完了記録を変更せず、v1.1の未実装機能を利用ガイドへ実装済みとして載せない。
+
 ## 将来拡張
 
-[#22](https://github.com/sutonomega/sound-canvas/issues/22) でMP4、歌詞、曲名表示、レイヤー合成、プリセット保存、サビ演出、短尺切り抜きを管理する。v1.0の必須マイルストーンには割り当てない。
+[#22](https://github.com/sutonomega/sound-canvas/issues/22)で残る候補を管理する。曲名表示・短尺切り抜きは次候補、MP4は実現性の調査、レイヤー合成・歌詞・サビ演出は保留とする。これらをM5へ含めず、着手時に別の仕様とIssueへ分割する。
 
 ## 運用
 

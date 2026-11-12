@@ -34,3 +34,5 @@ python -m http.server 8765 --bind 127.0.0.1 --directory dist
 - [ロードマップ](docs/roadmap.md)・[プロジェクト推進・レビュー対応](docs/project-workflow.md)
 - [Issue一覧](https://github.com/sutonomega/sound-canvas/issues)・[マイルストーン](https://github.com/sutonomega/sound-canvas/milestones)
 - [再現性](docs/issue-13-validation.md)・[同期と画質](docs/issue-16-validation.md)・[PNG保存](docs/issue-17-validation.md)・[操作性](docs/issue-19-validation.md)
+
+次期v1.1は[設定プリセット](docs/presets-spec.md)を計画し、[M5](https://github.com/sutonomega/sound-canvas/milestone/5)で進めます。仕様段階で、公開中のv1.0.0には未実装です。
