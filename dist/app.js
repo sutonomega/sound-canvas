@@ -4,6 +4,7 @@ import { StudioController } from './controller.js';
 import { SettingsPanel } from './settings-ui.js';
 import { VideoExporter } from './video.js';
 import { PngExporter } from './png.js';
+import { saveHint, spokenTime, seekKeyTime, FlowFocus } from './usability.js';
 
 const $ = id => document.getElementById(id);
 const audio = new AudioEngine(), renderer = new Renderer($('canvas'));
@@ -11,11 +12,14 @@ const studio = new StudioController(audio, renderer, updateUI);
 const settingsPanel = new SettingsPanel(document, (patch, size) => studio.configure(patch, size));
 const video = new VideoExporter(studio, updateUI);
 const png = new PngExporter(studio, updateUI);
+const flowFocus = new FlowFocus(document);
 const format = time => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, '0')}`;
 const text = (id, value) => { if ($(id).textContent !== value) $(id).textContent = value; };
 let scrubbing = false;
 
 function updateUI() {
+  const focusedBefore = document.activeElement;
+  const focusKey = png.busy ? 'png' : video.busy ? 'video' : studio.loading ? 'load' : studio.restoring ? 'restore' : null;
   const hasTrack = !!audio.buffer;
   $('play').disabled = !hasTrack || studio.exporting || studio.loading || studio.restoring || studio.starting;
   $('restart').disabled = !hasTrack || studio.exporting || studio.loading;
@@ -30,7 +34,9 @@ function updateUI() {
   $('video-progress').hidden = !video.busy;
   $('video-meter').value = video.percent;
   text('video-progress-label', `${format(video.elapsed)} / ${format(audio.buffer?.duration ?? 0)} · ${video.percent}%`);
-  text('video-message', video.support.supported ? video.message || '曲の長さと同じ時間がかかります。この画面を表示したまま録画します。' : video.support.reason);
+  const hint = saveHint(studio, png, video);
+  text('save-note', hint || 'PNGは生成後に保存リンクを押します。MVは曲と同じ時間をかけて録画します。');
+  text('video-message', video.support.supported ? (!video.canStart && !video.busy && hint ? '' : video.message || '曲の長さと同じ時間がかかります。この画面を表示したまま録画します。') : video.support.reason);
   $('video-save').hidden = !video.url;
   if (video.url) { $('video-save').href = video.url; text('video-result', `録画した曲：${video.info.name}`); }
   else text('video-result', '');
@@ -39,7 +45,7 @@ function updateUI() {
   $('png-progress').hidden = !png.busy;
   $('png-meter').value = png.percent;
   text('png-progress-label', `${png.percent}%`);
-  text('png-message', png.message || '生成すると一時停止します。完成アートを作っても再生位置は変わりません。');
+  text('png-message', !png.canStart && !png.busy && hint ? '' : png.message || '生成すると一時停止します。完成アートを作っても再生位置は変わりません。');
   $('png-save').hidden = !png.url;
   if (png.url) {
     $('png-save').href = png.url;
@@ -62,9 +68,16 @@ function updateUI() {
   text('duration', format(audio.buffer?.duration ?? 0));
   text('time', format(video.busy && video.state !== 'restoring' ? video.elapsed : audio.time));
   $('seek').max = audio.buffer?.duration ?? 1;
+  const seekLabel = `${spokenTime(audio.time)} / ${spokenTime(audio.buffer?.duration ?? 0)}`;
+  if ($('seek').getAttribute('aria-valuetext') !== seekLabel) $('seek').setAttribute('aria-valuetext', seekLabel);
   if (!scrubbing) $('seek').value = video.busy && video.state !== 'restoring' ? video.elapsed : audio.time;
   text('play', audio.playing ? 'Ⅱ' : '▶');
   $('play').setAttribute('aria-label', audio.playing ? '一時停止' : '再生');
+  const cancel = focusKey === 'png' ? $('png-cancel') : focusKey === 'video' ? $('video-cancel') : focusKey === 'load' ? $('cancel-load') : $('cancel-restore');
+  const complete = focusKey === 'png' ? () => png.url ? $('png-save') : focusedBefore?.id === 'png-complete' ? $('png-complete') : $('png')
+    : focusKey === 'video' ? () => video.url ? $('video-save') : $('video-start')
+    : focusKey === 'load' ? () => audio.buffer ? $('play') : $('file') : () => $('seek');
+  flowFocus.update(focusKey, focusedBefore, { cancel, complete });
 }
 
 function loadFile(file) {
@@ -96,6 +109,12 @@ $('seek').onpointerdown = () => { scrubbing = true; };
 window.addEventListener('pointerup', () => { scrubbing = false; });
 $('seek').onpointercancel = $('seek').onblur = () => { scrubbing = false; };
 $('seek').onchange = () => { scrubbing = false; studio.seek(Number($('seek').value)); };
+$('seek').onkeydown = event => {
+  if ($('seek').disabled) return;
+  const target = seekKeyTime(event.key, Number($('seek').value), Number($('seek').max), event.shiftKey);
+  if (target === null) return;
+  event.preventDefault(); scrubbing = false; studio.seek(target);
+};
 $('png').onclick = () => png.start('current');
 $('png-complete').onclick = () => png.start('complete');
 $('png-cancel').onclick = () => png.cancel();

@@ -7,3 +7,17 @@
 
 .video-export{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}.video-export button,.video-export a{width:100%;display:block;margin-top:8px;text-align:center;font-size:11px}.video-export a{padding:11px;border-radius:7px;color:#1d2817;background:var(--lime);text-decoration:none}.video-export [hidden]{display:none}#video-progress{margin-top:12px;font-size:10px;color:#b8bbc0}#video-meter{width:100%;accent-color:var(--lime)}#video-message{font-size:10px}#video-result{display:block;margin-top:8px;overflow-wrap:anywhere;color:var(--muted)}.upload.locked{opacity:.4;cursor:default}
 .png-export button,.png-export a{display:block;width:100%;margin-top:8px;text-align:center;font-size:11px}.png-export a{padding:11px;border-radius:7px;color:#1d2817;background:var(--lime);text-decoration:none}.png-export [hidden]{display:none}#png-progress{margin-top:12px;font-size:10px;color:#b8bbc0}#png-meter{width:100%;accent-color:var(--lime)}#png-result{display:block;margin-top:8px;overflow-wrap:anywhere;color:var(--muted)}
+/* Accessible controls and a layout that can shrink without horizontal scrolling. */
+:root{--muted:#b2b6bf}
+main{grid-template-columns:minmax(0,1fr) 350px}main>*,.style-card>div{min-width:0}
+p,.muted,#message,#settings-note,#video-message,#png-message{font-size:12px}.upload small,.style-card small{font-size:11px;line-height:1.7;color:#b2b6bf}
+.setting,h3,.png-export button,.png-export a,.video-export button,.video-export a{font-size:12px}.studio-foot{font-size:12px;color:#b2b6bf;gap:12px;line-height:1.7;flex-wrap:wrap}
+button:disabled{opacity:.65}.transport input{min-width:0;min-height:24px}.setting input{min-height:24px}
+.upload{position:relative}.upload input{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.upload:focus-within{outline:2px solid var(--lime);outline-offset:4px}
+.skip-link{position:absolute;top:8px;left:8px;z-index:5;padding:12px;background:var(--lime);color:#172011;transform:translateY(-200%)}.skip-link:focus{transform:none}
+.ratios button[aria-pressed="true"]::before{content:'✓ '}
+#save-note{color:#d3d9e3;line-height:1.8}#png-result,#video-result{font-size:11px;color:#b2b6bf}
+@media(max-width:900px){main{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){main{padding:20px 4%;gap:24px}.stage{height:480px}h1{font-size:25px}.transport{gap:8px}.transport button{flex-shrink:0}.upload strong{max-width:100%}.section-title{letter-spacing:0}.brand{gap:8px}.studio-foot>span:last-child{display:none}}
+button,select,.upload{border-color:#69717d}.style-list .style-card{border-color:#69717d}.ratios button{border-color:#69717d}.ratios .selected{border-color:#9bb77b}
