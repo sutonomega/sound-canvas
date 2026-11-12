@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sound Canvas 描画基盤の確認</title>
+<style>
+body{font:15px system-ui,sans-serif;background:#11151b;color:#edf0f5;margin:32px;max-width:1000px}button{padding:12px;background:#d5f5a0;border:0;border-radius:6px;cursor:pointer}li{padding:5px}.pass{color:#b4e99b}.fail{color:#ffacac}#sample canvas{max-height:320px;max-width:100%;border:1px solid #555}pre{white-space:pre-wrap}
+</style>
+<h1>Sound Canvas 描画基盤の確認</h1>
+<p>開発用。実際のCanvas 2Dで画素・復元・PNGを比較します。音源ファイルは不要です。</p>
+<button id="run">描画基盤の検証を実行</button>
+<p id="summary" role="status">未実行</p>
+<div id="sample"></div>
+<ol id="results"></ol>
+<pre id="environment"></pre>
+<script type="module" src="rendering-browser.js"></script>
+</html>

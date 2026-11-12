@@ -1,0 +1,125 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "fixture": {
+    "sampleRate": 22050,
+    "sectionSeconds": 18,
+    "totalSeconds": 54
+  },
+  "style": "organic-2",
+  "theme": "aurora",
+  "strength": 1,
+  "trail": "accumulate",
+  "scenarios": [
+    {
+      "id": "silence",
+      "seconds": [
+        0,
+        18
+      ],
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 0,
+      "whitePixels": 0,
+      "changedPercent": 0,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "mean": {
+        "volume": 0,
+        "bass": 0,
+        "mid": 0,
+        "high": 0,
+        "intensity": 0
+      },
+      "beats": 0
+    },
+    {
+      "id": "calm",
+      "seconds": [
+        18,
+        36
+      ],
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 8568,
+      "whitePixels": 0,
+      "changedPercent": 0.9296875,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "mean": {
+        "volume": 0.11285419854871236,
+        "bass": 0.06516676620339679,
+        "mid": 0.09206470541805326,
+        "high": 0.001242999262523686,
+        "intensity": 0.1112391153232122
+      },
+      "beats": 0
+    },
+    {
+      "id": "beat",
+      "seconds": [
+        36,
+        54
+      ],
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 23885,
+      "whitePixels": 0,
+      "changedPercent": 2.5916883680555554,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "mean": {
+        "volume": 0.3411231523102148,
+        "bass": 0.22050507907106298,
+        "mid": 0.19022740930071438,
+        "high": 0.12995068201100302,
+        "intensity": 0.43773814724893634
+      },
+      "beats": 35
+    }
+  ],
+  "bounds": [
+    {
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 69025,
+      "whitePixels": 0,
+      "changedPercent": 7.489691840277778,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "changedPixels": 84256,
+      "whitePixels": 0,
+      "changedPercent": 9.14236111111111,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0
+    },
+    {
+      "width": 1080,
+      "height": 1080,
+      "changedPixels": 110804,
+      "whitePixels": 0,
+      "changedPercent": 9.49965706447188,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0
+    }
+  ],
+  "analysisVersion": "sc-analysis-2",
+  "trackKey": "pcm-sha256-v1:895f07fc0233527e4853da46809d9bd1c021ccec15bab415b90124b6d4706a2d",
+  "seed": 2304706556,
+  "long": {
+    "seconds": 300,
+    "frames": 9000,
+    "strength": 2,
+    "width": 180,
+    "height": 320,
+    "changedPixels": 27811,
+    "whitePixels": 0,
+    "changedPercent": 48.28298611111111,
+    "whitePercent": 0,
+    "edgeChangedPixels": 0,
+    "elapsedMs": 519
+  }
+}

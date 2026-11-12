@@ -1,0 +1,93 @@
+# v1.0 開発ロードマップ
+
+## 現状と完成の定義
+
+2026-11-12: 0.1試作品をGitHub Pagesで公開し、利用者による動作確認済み。MP3/WAV、簡易事前解析、再生/一時停止/シーク、有機的曲線、設定、PNGは実装済み。既存機能は検証・改善として扱う。初回公開時は盛り上がり、3層構成、残り3スタイル、動画は未実装だった。現在のdevはM2を完了し、4スタイル・共通解析と設定を備える。M3では音声付きWebMの実装と短い合成音での同期・画質検証まで統合した。通常ブラウザの非表示・長曲・実音源は#18で検証し、確認範囲と未確認事項を記録した。
+
+v1.0は「自作曲を読み込み、4スタイルから選び、音声付きWebMと完成アートPNGを3比率で保存できる」初期仕様の完成を指す。M1〜M4の必須Issueを完了し、公開URLで確認する。将来案を完成条件に加えない。期限・担当者は未設定。
+
+## マイルストーンとIssue
+
+### [M1：企画・仕様・設計](https://github.com/sutonomega/sound-canvas/milestone/1)
+
+- [#1 [企画] v1.0の対象ユーザー・完成条件・公開範囲を定める](https://github.com/sutonomega/sound-canvas/issues/1)
+- [#2 [仕様] 音楽解析・操作・出力・再現性の仕様書を整備する](https://github.com/sutonomega/sound-canvas/issues/2)
+- [#3 [設計] 解析・3層描画・スタイル・出力の共通契約を設計する](https://github.com/sutonomega/sound-canvas/issues/3)
+- [#4 [運用] dev・PR・レビュー・文書更新の開発手順を整える](https://github.com/sutonomega/sound-canvas/issues/4)
+
+### [M2：音楽解析と4種類の描画表現](https://github.com/sutonomega/sound-canvas/milestone/2)
+
+- [#5 [音楽] 読み込み・解析・再生の状態管理と失敗時の復旧を安定化する](https://github.com/sutonomega/sound-canvas/issues/5)
+- [#6 [解析] 帯域・ビート・盛り上がりと平滑化を共通データに整える](https://github.com/sutonomega/sound-canvas/issues/6)
+- [#7 [描画基盤] 背景・蓄積・演出の3層とスタイル共通インターフェースを実装する](https://github.com/sutonomega/sound-canvas/issues/7)
+- [#8 [描画] 有機的な曲線の音楽反応と完成アートを磨く](https://github.com/sutonomega/sound-canvas/issues/8)
+- [#9 [描画] 幾何学模様スタイルを追加する](https://github.com/sutonomega/sound-canvas/issues/9)
+- [#10 [描画] 粒子アートスタイルを追加する](https://github.com/sutonomega/sound-canvas/issues/10)
+- [#11 [描画] 簡易流体・水彩スタイルを追加する](https://github.com/sutonomega/sound-canvas/issues/11)
+- [#12 [設定] 4スタイル・テーマ・反応・軌跡・比率の設定を統合する](https://github.com/sutonomega/sound-canvas/issues/12)
+
+### [M3：再現性とMV制作](https://github.com/sutonomega/sound-canvas/milestone/3)
+
+- [#13 [再現性] 固定シード・固定時間刻み・シーク復元の一致を検証する](https://github.com/sutonomega/sound-canvas/issues/13)
+- [#14 [性能] シーク時の再計算を軽量化し復元中の操作を整える](https://github.com/sutonomega/sound-canvas/issues/14)
+- [#15 [動画] 音声付きWebMの録画・停止・ダウンロードを実装する](https://github.com/sutonomega/sound-canvas/issues/15)
+- [#16 [出力検証] プレビューとWebMの同期・画質・3比率を確認する](https://github.com/sutonomega/sound-canvas/issues/16)
+- [#17 [PNG] 現在の画像と曲末の完成アートを確実に保存する](https://github.com/sutonomega/sound-canvas/issues/17)
+
+### [M4：v1.0公開準備](https://github.com/sutonomega/sound-canvas/milestone/4)
+
+- [#18 [検証] 実音源・長曲・主要PCブラウザで制作フローを確認する](https://github.com/sutonomega/sound-canvas/issues/18)
+- [#19 [UI] 操作性・キーボード・日本語表示を仕上げる](https://github.com/sutonomega/sound-canvas/issues/19)
+- [#20 [ドキュメント] 使い方・開発・公開・不具合報告の手順を整備する](https://github.com/sutonomega/sound-canvas/issues/20)
+- [#21 [公開] CI・リリースチェックを整えてv1.0を公開する](https://github.com/sutonomega/sound-canvas/issues/21)
+
+## 着手順
+
+### M1の進捗（2026-11-12）
+
+- #4：PR #23がdevにマージされ、運用整備の完了条件を確認してクローズ済み。
+- #1〜#3：PR #24がdevにマージ済み。[公開範囲](service-scope.md)・[仕様](spec.md)・[設計](design.md)を確認し、M1の文書整備を完了。
+- 上記は企画文書の完了を示す。機能の完了状況は以下に記録する。
+
+### M2の進捗（2026-11-12）
+
+- #5：PR #25がdevにマージ済み。読込候補の確定、処理の中断・世代管理、連続シーク、曲末からの再生を実装。[確認記録](issue-5-validation.md)を参照。
+- #6：PR #26がdevにマージ済み。チャンネル別帯域解析、ビート間隔、intensity、全PCM由来の識別を実装。[確認記録](issue-6-validation.md)を参照。
+- #7：PR #27がdevにマージ済み。3層合成、スタイル登録、固定刻み、内部状態と描画面の保存/復元を実装。[確認記録](issue-7-validation.md)を参照。
+- #8：PR #28がdevにマージ済み。音量・帯域・ビート・盛り上がりの曲線反応、白飛び対策、3比率の余白を調整。[比較画像と確認記録](issue-8-validation.md)を参照。
+- #9：PR #29がdevにマージ済み。幾何学模様と曲線の単独切替、音楽反応、全テーマ・比率・軌跡を実装。[比較画像と確認記録](issue-9-validation.md)を参照。
+- #10：PR #30がdevにマージ済み。粒子の発生・拡散・寿命、状態復元と単独切替を実装。[比較画像と確認記録](issue-10-validation.md)を参照。
+- #11：PR #31がdevにマージ済み。半透明のにじみ・顔料・ビート演出、全テーマと軌跡の5分描画を実装・確認。[比較画像と確認記録](issue-11-validation.md)を参照。
+- #12：PR #32がdevにマージ済み。テーマの色見本と選択表示を描画設定に同期し、全216通りと連続変更を検証。[比較画像と確認記録](issue-12-validation.md)を参照。
+- #5〜#12の全8件の完了とクローズを確認し、M2マイルストーンを完了した。devの成果でありmainへの公開とは区別する。
+
+### M3の進捗（2026-11-12）
+
+- #13：PR #33がdevにマージ済み。境界時刻の誤差を解析・描画で統一し、4スタイルの順再生・停止再開・描画遅延・シーク・状態復元を検証。[比較画像と確認記録](issue-13-validation.md)を参照。
+- #14：PR #34がdevにマージ済み。15秒ごとの保存状態と現在位置を再利用し、48MiB・最大4件の保持上限、分割復元、進捗・中止を実装。3分/5分の測定と再現性を[確認記録](issue-14-validation.md)にまとめた。
+- #15：PR #35がdevにマージ済み。音声付きWebMの全曲録画・保存、非対応案内、排他・中止・元位置復帰を実装。[サンプルと確認記録](issue-15-validation.md)を参照。
+- #16：PR #36がdevにマージされ、Issueのクローズを確認。合成音の同期3比率と画質4スタイル×3比率を検証。同期差最大17ms、計15件成功。450msの負荷停止からの復帰も確認。[測定方法・比較画像・制限](issue-16-validation.md)と[録画ガイド](recording-guide.md)を追加。実際の非表示通知は自動操作環境で発生せず未確認で、#18の通常ブラウザ検証に残す。
+- #17（2026-11-13）：PR #37がdevにマージされ、Issueのクローズを確認。現在/曲末のPNGを別に生成し、保存専用描画・排他・進捗・中止・失敗復帰を実装。4スタイル×3比率×両軌跡×現在/完成の48PNGが参照と画素差0、中止/再生成を含むブラウザ49件成功。[比較画像と確認記録](issue-17-validation.md)を参照。
+- #13〜#17の全5件の統合・クローズを確認し、M3マイルストーンを完了した。mainへの公開とは区別し、M4で実音源と公開準備を進める。
+
+### M4の進捗（2026-11-13）
+
+- #18：PR #38のdevマージとIssueのクローズを確認。実音源4曲の全曲MV、合成WAV等5ケースが成功。通常Chrome/Edgeの短い録画、通常ChromeのPNG49件、通常Edgeの実音源PNGと実際の非表示中断も確認。[リリース確認記録](release-checklist.md)で環境・結果・未確認範囲を管理する。Firefox/Safari、10分の全曲MVは未確認。初期版はWindows / Chrome 157・Edge 157の確認範囲を明示し、音源・曲名・音声入り成果物を公開しない。
+- #19：PR #39のdevマージとIssueのクローズを確認。曲選択のキーボード対応、出力のフォーカス、保存不可の案内、1秒/10秒のキーシーク、文字と枠、狭い画面の表示を改善。[確認記録](issue-19-validation.md)にマウス/キーボード操作、表示幅、実ファイル保存、支援技術等の未確認を区別して記録。
+
+- #20：PR #40のdevマージとIssueのクローズを確認。利用・開発・公開・復旧・不具合報告のガイドを整備し、READMEから案内する。確認記録は[こちら](issue-20-validation.md)。
+
+- #21：PR #41がdevへ統合され、devのCI成功を確認。PR・dev・公開前の共通CIと公開制御を整備。v1.0.0の版表記・利用文書を公開用に調整する。[公開準備・リリースノート案](v1.0-release.md)で前提条件と公開後の確認を管理する。main公開・公開後の保存確認・正式タグ／Releaseは未実施のため、IssueとM4を維持する。
+
+まず #4 の運用整備と #1 → #2 → #3 の企画・仕様・設計を進める。その後 #5〜#7 の安定化・解析・描画基盤を用意し、#8〜#11 の表現、#12 の設定を統合する。#13 の再現性を基準に復元性能・動画・PNGを整え、M4で検証・ガイド・v1.0公開を行う。個別の依存関係は各Issueを正とする。
+
+順序や範囲を変更するときはIssue・マイルストーン・本書を一緒に更新する。MVを先行検証したい場合などは依存関係を見直し、合意した変更を記録してから進める。
+
+## 将来拡張
+
+[#22](https://github.com/sutonomega/sound-canvas/issues/22) でMP4、歌詞、曲名表示、レイヤー合成、プリセット保存、サビ演出、短尺切り抜きを管理する。v1.0の必須マイルストーンには割り当てない。
+
+## 運用
+
+[開発手順](project-workflow.md)に従い、作業ブランチ → dev宛PR → 条件確認 → 公開時にmain反映と進める。文書PRの作成とマージは区別し、マージしていない文書や未確認事項を完了扱いにしない。
+

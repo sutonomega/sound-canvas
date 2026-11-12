@@ -1,0 +1,210 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "execution": "two independent validation sessions in the same environment",
+  "checks": [
+    {
+      "title": "実音源 1",
+      "passed": true,
+      "fileType": "MP3",
+      "inputBytes": 6512448,
+      "duration": 289,
+      "channels": 2,
+      "sampleRate": 48000,
+      "pcmBytes": 110976064,
+      "loadMs": 2246,
+      "style": "organic",
+      "size": [
+        720,
+        1280
+      ],
+      "current": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 849182,
+        "milliseconds": 289.3
+      },
+      "complete": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 936629,
+        "milliseconds": 537.6
+      },
+      "videoSupport": {
+        "supported": true,
+        "mimeType": "video/webm;codecs=vp8,opus",
+        "reason": ""
+      },
+      "video": {
+        "mime": "video/webm;codecs=vp8,opus",
+        "bytes": 145691810,
+        "audioDuration": 289.08,
+        "audioEnd": 289.055,
+        "videoEnd": 289.105,
+        "rms": [
+          0.18,
+          0.195,
+          0.193
+        ],
+        "frameSignals": [
+          2608,
+          2808,
+          2851
+        ],
+        "recordMs": 290309.2
+      }
+    },
+    {
+      "title": "実音源 2",
+      "passed": true,
+      "fileType": "MP3",
+      "inputBytes": 5520297,
+      "duration": 239.88,
+      "channels": 2,
+      "sampleRate": 48000,
+      "pcmBytes": 92113920,
+      "loadMs": 1894.4,
+      "style": "geometric",
+      "size": [
+        1280,
+        720
+      ],
+      "current": {
+        "width": 1280,
+        "height": 720,
+        "bytes": 701596,
+        "milliseconds": 217.5
+      },
+      "complete": {
+        "width": 1280,
+        "height": 720,
+        "bytes": 742653,
+        "milliseconds": 389.3
+      },
+      "videoSupport": {
+        "supported": true,
+        "mimeType": "video/webm;codecs=vp8,opus",
+        "reason": ""
+      },
+      "video": {
+        "mime": "video/webm;codecs=vp8,opus",
+        "bytes": 103378728,
+        "audioDuration": 239.94,
+        "audioEnd": 239.918,
+        "videoEnd": 239.99,
+        "rms": [
+          0.125,
+          0.173,
+          0.077
+        ],
+        "frameSignals": [
+          2574,
+          2606,
+          2614
+        ],
+        "recordMs": 241104
+      }
+    },
+    {
+      "title": "実音源 3",
+      "passed": true,
+      "fileType": "MP3",
+      "inputBytes": 4877355,
+      "duration": 212.36,
+      "channels": 2,
+      "sampleRate": 48000,
+      "pcmBytes": 81546240,
+      "loadMs": 1676.4,
+      "style": "particles",
+      "size": [
+        1080,
+        1080
+      ],
+      "current": {
+        "width": 1080,
+        "height": 1080,
+        "bytes": 893481,
+        "milliseconds": 1021
+      },
+      "complete": {
+        "width": 1080,
+        "height": 1080,
+        "bytes": 980675,
+        "milliseconds": 2285.1
+      },
+      "videoSupport": {
+        "supported": true,
+        "mimeType": "video/webm;codecs=vp8,opus",
+        "reason": ""
+      },
+      "video": {
+        "mime": "video/webm;codecs=vp8,opus",
+        "bytes": 122474353,
+        "audioDuration": 212.46,
+        "audioEnd": 212.442,
+        "videoEnd": 212.473,
+        "rms": [
+          0.094,
+          0.145,
+          0.083
+        ],
+        "frameSignals": [
+          2761,
+          2808,
+          2831
+        ],
+        "recordMs": 213717
+      }
+    },
+    {
+      "title": "実音源 4",
+      "passed": true,
+      "fileType": "MP3",
+      "inputBytes": 7084760,
+      "duration": 299.8,
+      "channels": 2,
+      "sampleRate": 48000,
+      "pcmBytes": 115123192,
+      "loadMs": 2411.1,
+      "style": "watercolor",
+      "size": [
+        720,
+        1280
+      ],
+      "current": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 813241,
+        "milliseconds": 352.9
+      },
+      "complete": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 869576,
+        "milliseconds": 700.6
+      },
+      "videoSupport": {
+        "supported": true,
+        "mimeType": "video/webm;codecs=vp8,opus",
+        "reason": ""
+      },
+      "video": {
+        "mime": "video/webm;codecs=vp8,opus",
+        "bytes": 134374224,
+        "audioDuration": 299.88,
+        "audioEnd": 299.857,
+        "videoEnd": 299.906,
+        "rms": [
+          0.134,
+          0.156,
+          0.183
+        ],
+        "frameSignals": [
+          2740,
+          2791,
+          2822
+        ],
+        "recordMs": 301123.2
+      }
+    }
+  ]
+}

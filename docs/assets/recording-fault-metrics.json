@@ -1,0 +1,35 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "results": [
+    {
+      "kind": "lag",
+      "passed": true,
+      "message": "描画が録画に追いつかなくなったため中止しました。負荷を下げて再度お試しください。",
+      "state": "error",
+      "blobBytes": 0,
+      "restoredTime": 1.1,
+      "canSave": true,
+      "tracksReleased": true,
+      "handlersReleased": true,
+      "injected": true,
+      "visibilityEvents": [],
+      "normalPlayAfterFailure": true,
+      "applied": true
+    },
+    {
+      "kind": "hidden",
+      "passed": null,
+      "message": "音声付きWebMが完成しました。保存できます。",
+      "state": "ready",
+      "blobBytes": 4592044,
+      "restoredTime": 1.1,
+      "canSave": true,
+      "tracksReleased": true,
+      "handlersReleased": true,
+      "injected": false,
+      "visibilityEvents": [],
+      "normalPlayAfterFailure": true,
+      "applied": false
+    }
+  ]
+}

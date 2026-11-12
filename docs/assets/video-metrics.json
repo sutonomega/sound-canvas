@@ -1,0 +1,174 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "visibility": "visible",
+  "recordings": [
+    {
+      "style": "watercolor",
+      "width": 720,
+      "height": 1280,
+      "silent": false,
+      "mimeType": "video/webm;codecs=vp8,opus",
+      "bytes": 964349,
+      "tracks": [
+        {
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 720,
+          "height": 1280
+        },
+        {
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "inputSeconds": 3.113,
+      "decodedAudioSeconds": 3.18,
+      "rms": 0.17987125195197945,
+      "litPixelsAtEnd": 60182,
+      "finalFrame": 94,
+      "restoredTime": 1.1,
+      "restoredPixelDifference": 0
+    },
+    {
+      "style": "geometric",
+      "width": 1280,
+      "height": 720,
+      "silent": false,
+      "mimeType": "video/webm;codecs=vp8,opus",
+      "bytes": 1035425,
+      "tracks": [
+        {
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "inputSeconds": 3.113,
+      "decodedAudioSeconds": 3.18,
+      "rms": 0.17987125195197945,
+      "litPixelsAtEnd": 6017,
+      "finalFrame": 94,
+      "restoredTime": 1.1,
+      "restoredPixelDifference": 0
+    },
+    {
+      "style": "particles",
+      "width": 1080,
+      "height": 1080,
+      "silent": false,
+      "mimeType": "video/webm;codecs=vp8,opus",
+      "bytes": 1168869,
+      "tracks": [
+        {
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 1080,
+          "height": 1080
+        },
+        {
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "inputSeconds": 3.113,
+      "decodedAudioSeconds": 3.18,
+      "rms": 0.17987125195197945,
+      "litPixelsAtEnd": 15468,
+      "finalFrame": 94,
+      "restoredTime": 1.1,
+      "restoredPixelDifference": 0
+    },
+    {
+      "style": "organic",
+      "width": 720,
+      "height": 1280,
+      "silent": false,
+      "mimeType": "video/webm;codecs=vp8,opus",
+      "bytes": 821830,
+      "tracks": [
+        {
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 720,
+          "height": 1280
+        },
+        {
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "inputSeconds": 3.113,
+      "decodedAudioSeconds": 3.18,
+      "rms": 0.17987125195197945,
+      "litPixelsAtEnd": 12084,
+      "finalFrame": 94,
+      "restoredTime": 1.1,
+      "restoredPixelDifference": 0
+    },
+    {
+      "style": "organic",
+      "width": 720,
+      "height": 1280,
+      "silent": true,
+      "mimeType": "video/webm;codecs=vp8,opus",
+      "bytes": 585102,
+      "tracks": [
+        {
+          "type": 1,
+          "codec": "V_VP8",
+          "width": 720,
+          "height": 1280
+        },
+        {
+          "type": 2,
+          "codec": "A_OPUS"
+        }
+      ],
+      "inputSeconds": 3.113,
+      "decodedAudioSeconds": 3.18,
+      "rms": 2.0345287647500603e-34,
+      "litPixelsAtEnd": 0,
+      "finalFrame": 94,
+      "restoredTime": 1.1,
+      "restoredPixelDifference": 0
+    }
+  ],
+  "checks": [
+    {
+      "title": "watercolor / 720×1280 / 音声あり：WebMと復帰",
+      "passed": true
+    },
+    {
+      "title": "geometric / 1280×720 / 音声あり：WebMと復帰",
+      "passed": true
+    },
+    {
+      "title": "particles / 1080×1080 / 音声あり：WebMと復帰",
+      "passed": true
+    },
+    {
+      "title": "organic / 720×1280 / 音声あり：WebMと復帰",
+      "passed": true
+    },
+    {
+      "title": "organic / 720×1280 / 無音：WebMと復帰",
+      "passed": true
+    },
+    {
+      "title": "録画中止は途中データを捨て、再度録画できる",
+      "passed": true
+    }
+  ],
+  "support": {
+    "supported": true,
+    "mimeType": "video/webm;codecs=vp8,opus",
+    "reason": ""
+  },
+  "total": 6,
+  "passed": 6
+}

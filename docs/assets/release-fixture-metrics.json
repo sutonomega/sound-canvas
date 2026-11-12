@@ -1,0 +1,66 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "checks": [
+    {
+      "title": "短いWAV",
+      "passed": true,
+      "duration": 0.113,
+      "inputBytes": 1852,
+      "loadMs": 20.3,
+      "outputSampleRate": 48000,
+      "complete": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 386035,
+        "milliseconds": 39.4
+      }
+    },
+    {
+      "title": "無音WAV",
+      "passed": true,
+      "duration": 1,
+      "inputBytes": 32044,
+      "loadMs": 13.2,
+      "outputSampleRate": 48000,
+      "complete": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 381560,
+        "milliseconds": 35.3
+      }
+    },
+    {
+      "title": "10分WAV",
+      "passed": true,
+      "duration": 600,
+      "inputBytes": 9600044,
+      "loadMs": 3082.7,
+      "outputSampleRate": 48000,
+      "complete": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 1402750,
+        "milliseconds": 1017.8
+      }
+    },
+    {
+      "title": "大容量WAV",
+      "passed": true,
+      "duration": 60,
+      "inputBytes": 46080044,
+      "loadMs": 560.6,
+      "outputSampleRate": 48000,
+      "complete": {
+        "width": 720,
+        "height": 1280,
+        "bytes": 972913,
+        "milliseconds": 137.4
+      }
+    },
+    {
+      "title": "破損音源 → 以前の曲に復帰",
+      "passed": true,
+      "recovered": true
+    }
+  ]
+}

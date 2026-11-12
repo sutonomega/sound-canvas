@@ -1,0 +1,354 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "rendererVersion": "sc-renderer-4",
+  "policy": {
+    "maxBytes": 50331648,
+    "maxEntries": 4,
+    "intervalFrames": 450,
+    "sliceBudgetMs": 8,
+    "sliceMaxFrames": 120
+  },
+  "memoryNote": "Retained snapshot RGBA bytes plus UTF-16 state estimate; excludes audio, active surfaces, temporary copies and browser/GPU overhead.",
+  "analysis": [
+    {
+      "seconds": 180,
+      "sampleRate": 8000,
+      "channels": 2,
+      "samples": 1440000,
+      "featureFrames": 5400,
+      "analysisMs": 939.1,
+      "trackKey": "pcm-sha256-v1:da702f328cf47e7a6f2a91f792e8304590b7f74c0b6e02b3a8b8e6caf844a185",
+      "seed": 3664785202,
+      "analysisVersion": "sc-analysis-3"
+    },
+    {
+      "seconds": 300,
+      "sampleRate": 8000,
+      "channels": 2,
+      "samples": 2400000,
+      "featureFrames": 9000,
+      "analysisMs": 1554.8,
+      "trackKey": "pcm-sha256-v1:a2b0b1c1798a66b1215806817551c97e86baa29d67783caea0b3ae1e9dc899e5",
+      "seed": 2729488833,
+      "analysisVersion": "sc-analysis-3"
+    }
+  ],
+  "benchmarks": [
+    {
+      "style": "organic",
+      "seconds": 180,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 179,
+      "warmTarget": 178,
+      "baselineColdMs": 383.7,
+      "optimizedColdMs": 531.3,
+      "baselineWarmTargetMs": 369.7,
+      "optimizedWarmMs": 47.6,
+      "baselineFrames": 5340,
+      "warmStartFrame": 4950,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 92.7,
+      "warmSpeedup": 7.77,
+      "estimatedRetainedMiB": 42.2,
+      "cacheEntries": 4,
+      "cacheBytes": 44247352,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "organic",
+      "seconds": 300,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 299,
+      "warmTarget": 298,
+      "baselineColdMs": 625.3,
+      "optimizedColdMs": 876.6,
+      "baselineWarmTargetMs": 626.3,
+      "optimizedWarmMs": 44.6,
+      "baselineFrames": 8940,
+      "warmStartFrame": 8550,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 95.64,
+      "warmSpeedup": 14.04,
+      "estimatedRetainedMiB": 42.2,
+      "cacheEntries": 4,
+      "cacheBytes": 44248304,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "geometric",
+      "seconds": 180,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 179,
+      "warmTarget": 178,
+      "baselineColdMs": 201.5,
+      "optimizedColdMs": 361.1,
+      "baselineWarmTargetMs": 213,
+      "optimizedWarmMs": 33.4,
+      "baselineFrames": 5340,
+      "warmStartFrame": 4950,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 92.7,
+      "warmSpeedup": 6.38,
+      "estimatedRetainedMiB": 42.19,
+      "cacheEntries": 4,
+      "cacheBytes": 44240280,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "geometric",
+      "seconds": 300,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 299,
+      "warmTarget": 298,
+      "baselineColdMs": 342.6,
+      "optimizedColdMs": 606.6,
+      "baselineWarmTargetMs": 355.6,
+      "optimizedWarmMs": 33.9,
+      "baselineFrames": 8940,
+      "warmStartFrame": 8550,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 95.64,
+      "warmSpeedup": 10.49,
+      "estimatedRetainedMiB": 42.19,
+      "cacheEntries": 4,
+      "cacheBytes": 44240308,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "particles",
+      "seconds": 180,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 179,
+      "warmTarget": 178,
+      "baselineColdMs": 2096,
+      "optimizedColdMs": 2841.5,
+      "baselineWarmTargetMs": 2050.6,
+      "optimizedWarmMs": 203.2,
+      "baselineFrames": 5340,
+      "warmStartFrame": 4950,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 92.7,
+      "warmSpeedup": 10.09,
+      "estimatedRetainedMiB": 42.44,
+      "cacheEntries": 4,
+      "cacheBytes": 44498792,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "particles",
+      "seconds": 300,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 299,
+      "warmTarget": 298,
+      "baselineColdMs": 3610.8,
+      "optimizedColdMs": 4869.9,
+      "baselineWarmTargetMs": 3517,
+      "optimizedWarmMs": 222.1,
+      "baselineFrames": 8940,
+      "warmStartFrame": 8550,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 95.64,
+      "warmSpeedup": 15.84,
+      "estimatedRetainedMiB": 42.44,
+      "cacheEntries": 4,
+      "cacheBytes": 44504582,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "watercolor",
+      "seconds": 180,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 179,
+      "warmTarget": 178,
+      "baselineColdMs": 463.4,
+      "optimizedColdMs": 635.1,
+      "baselineWarmTargetMs": 466.2,
+      "optimizedWarmMs": 53.6,
+      "baselineFrames": 5340,
+      "warmStartFrame": 4950,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 92.7,
+      "warmSpeedup": 8.7,
+      "estimatedRetainedMiB": 42.19,
+      "cacheEntries": 4,
+      "cacheBytes": 44242428,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "watercolor",
+      "seconds": 300,
+      "width": 720,
+      "height": 1280,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 299,
+      "warmTarget": 298,
+      "baselineColdMs": 769.9,
+      "optimizedColdMs": 1042.5,
+      "baselineWarmTargetMs": 785.5,
+      "optimizedWarmMs": 54.9,
+      "baselineFrames": 8940,
+      "warmStartFrame": 8550,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 95.64,
+      "warmSpeedup": 14.31,
+      "estimatedRetainedMiB": 42.19,
+      "cacheEntries": 4,
+      "cacheBytes": 44241670,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "watercolor",
+      "seconds": 300,
+      "width": 1280,
+      "height": 720,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 299,
+      "warmTarget": 298,
+      "baselineColdMs": 784.1,
+      "optimizedColdMs": 1039.4,
+      "baselineWarmTargetMs": 789.5,
+      "optimizedWarmMs": 52.1,
+      "baselineFrames": 8940,
+      "warmStartFrame": 8550,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 95.64,
+      "warmSpeedup": 15.15,
+      "estimatedRetainedMiB": 42.19,
+      "cacheEntries": 4,
+      "cacheBytes": 44241670,
+      "maxChannelDifference": 0
+    },
+    {
+      "style": "watercolor",
+      "seconds": 300,
+      "width": 1080,
+      "height": 1080,
+      "theme": "aurora",
+      "trail": "accumulate",
+      "strength": 1,
+      "coldTarget": 299,
+      "warmTarget": 298,
+      "baselineColdMs": 1038.4,
+      "optimizedColdMs": 1319.9,
+      "baselineWarmTargetMs": 1038.2,
+      "optimizedWarmMs": 65.4,
+      "baselineFrames": 8940,
+      "warmStartFrame": 8550,
+      "warmFrames": 390,
+      "framesAvoidedPercent": 95.64,
+      "warmSpeedup": 15.87,
+      "estimatedRetainedMiB": 40.05,
+      "cacheEntries": 3,
+      "cacheBytes": 41994324,
+      "maxChannelDifference": 0
+    }
+  ],
+  "checks": [
+    {
+      "title": "organic / 180秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "organic / 300秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "geometric / 180秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "geometric / 300秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "particles / 180秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "particles / 300秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "watercolor / 180秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "watercolor / 300秒 / 720×1280：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "watercolor / 300秒 / 1280×720：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "watercolor / 300秒 / 1080×1080：冷間・再訪・画素・保持上限",
+      "passed": true
+    },
+    {
+      "title": "organic：再生中に保存した状態からの後方シーク",
+      "passed": true
+    },
+    {
+      "title": "geometric：再生中に保存した状態からの後方シーク",
+      "passed": true
+    },
+    {
+      "title": "particles：再生中に保存した状態からの後方シーク",
+      "passed": true
+    },
+    {
+      "title": "watercolor：再生中に保存した状態からの後方シーク",
+      "passed": true
+    },
+    {
+      "title": "復元中の連続シーク・設定変更・曲差替えは最後の要求だけを反映",
+      "passed": true
+    },
+    {
+      "title": "中止は最初の停止画面へ戻り、後で古い復元が再開しない",
+      "passed": true
+    },
+    {
+      "title": "設定・比率・曲の変更で以前の保存面を解放する",
+      "passed": true
+    },
+    {
+      "title": "不正な保存状態は破棄して冒頭から同じ結果を作る",
+      "passed": true
+    }
+  ],
+  "total": 18,
+  "passed": 18
+}

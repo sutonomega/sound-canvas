@@ -1,0 +1,25 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0",
+  "results": [
+    {
+      "kind": "hidden",
+      "passed": true,
+      "message": "画面が非表示になったため録画を中止しました。",
+      "state": "error",
+      "blobBytes": 0,
+      "restoredTime": 1.1,
+      "canSave": true,
+      "tracksReleased": true,
+      "handlersReleased": true,
+      "injected": false,
+      "visibilityEvents": [
+        {
+          "state": "hidden",
+          "time": 17433.70000000298
+        }
+      ],
+      "normalPlayAfterFailure": true,
+      "applied": true
+    }
+  ]
+}
