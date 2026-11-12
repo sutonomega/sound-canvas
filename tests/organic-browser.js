@@ -23,17 +23,22 @@ function equal(a, b) {
 }
 function metrics(canvas, background) {
   const data = image(canvas), w = canvas.width, h = canvas.height;
-  let changed = 0, white = 0, edgeChanged = 0;
+  let changed = 0, white = 0, edgeChanged = 0, chromatic = 0;
   const border = Math.max(1, Math.floor(Math.min(w, h) * .02));
   for (let i = 0; i < data.length; i += 4) {
     const difference = Math.max(...[0, 1, 2].map(k => Math.abs(data[i + k] - background[i + k])));
-    if (difference > 8) changed++;
+    if (difference > 8) {
+      changed++;
+      const maximum = Math.max(data[i], data[i + 1], data[i + 2]);
+      const minimum = Math.min(data[i], data[i + 1], data[i + 2]);
+      if (maximum > 0 && (maximum - minimum) / maximum > .25) chromatic++;
+    }
     if (data[i] > 245 && data[i + 1] > 245 && data[i + 2] > 245) white++;
     const x = (i / 4) % w, y = Math.floor(i / 4 / w);
     if ((x < border || y < border || x >= w - border || y >= h - border) && difference > 1) edgeChanged++;
   }
   return { width: w, height: h, changedPixels: changed, whitePixels: white,
-    changedPercent: changed / (w * h) * 100, whitePercent: white / (w * h) * 100, edgeChangedPixels: edgeChanged };
+    changedPercent: changed / (w * h) * 100, whitePercent: white / (w * h) * 100, edgeChangedPixels: edgeChanged, chromaticPercent: changed ? chromatic / changed * 100 : 0 };
 }
 async function render(r, start, end, features) {
   for (let frame = start; frame < end; frame++) {
@@ -113,12 +118,28 @@ $('run').onclick = async () => {
       const stats = metrics(r.canvas, background);
       report.long = { seconds: 300, frames: 9000, strength: 2, ...stats, elapsedMs: Math.round(performance.now() - started) };
       assert(stats.whitePercent < .1, '5分で白飛び'); assert(stats.edgeChangedPixels === 0, '5分で外周に描画');
-      const transient = r.style.snapshot().pulses ?? r.style.snapshot().rings ?? r.style.snapshot().particles;
+      const transient = r.style.snapshot().pulses ?? r.style.snapshot().rings ?? r.style.snapshot().particles ?? r.style.snapshot().blooms;
       report.long.transientCount = transient.length;
       assert(transient.length <= definition.maxTransient, '演出が増え続ける');
       r.restore(saved); await render(r, 8970, 9000, organicStress); equal(image(r.canvas), expected);
       assert(JSON.stringify(r.style.snapshot()) === state, '曲末復元後の状態差'); r.dispose();
     });
+
+    if (selectedStyle === 'watercolor') {
+      report.longSettings = [];
+      for (const theme of ['aurora', 'ember', 'ocean']) for (const trail of ['accumulate', 'fade']) {
+        await check(`水彩5分 / ${theme} / ${trail}：色と余白を保つ`, async () => {
+          const r = create([180, 320]); r.configure({ strength: 2, theme, trail });
+          r.reset(analysis.seed, { duration: 300 }); const background = image(r.canvas);
+          await render(r, 0, 9000, organicStress);
+          const stats = metrics(r.canvas, background); report.longSettings.push({ theme, trail, ...stats });
+          assert(stats.whitePercent < .1, '全面の白飛び');
+          assert(stats.changedPercent > .1 && stats.changedPercent < 85, '描画が無いか全面が塗りつぶされた');
+          assert(stats.chromaticPercent > 90, '色の彩度が失われた');
+          assert(stats.edgeChangedPixels === 0, '外周に描画'); r.dispose();
+        });
+      }
+    }
 
     const sheet = document.createElement('canvas'); sheet.width = 2288; sheet.height = 1460;
     const c = sheet.getContext('2d'); c.fillStyle = '#0d121b'; c.fillRect(0, 0, sheet.width, sheet.height);

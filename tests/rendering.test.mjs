@@ -98,14 +98,14 @@ test('style paint state is isolated and effects are cleared on every update', ()
   assert.equal(effects.calls.filter(call => call.type === 'clear').length, 2);
 });
 
-test('fade uses destination-out with dt-scaled alpha; accumulate never applies it', () => {
+test('fade batches four ticks with the fractional final interval; accumulate never applies it', () => {
   const r = fixture({ probe: probe([]) }); r.configure({ style: 'probe', trail: 'fade' });
   r.reset(1, { ...metadata, duration: .11 });
   for (let i = 0; i < 4; i++) r.step(feature());
   const fades = r.layers.drawing.ctx.calls.filter(call => call.type === 'fill' && call.composite === 'destination-out');
   const alpha = call => Number(call.color.match(/,([^,]+)\)$/)[1]);
-  assert.ok(Math.abs(alpha(fades[0]) - .018) < 1e-12);
-  assert.ok(alpha(fades[3]) > 0 && alpha(fades[3]) < .018);
+  assert.equal(fades.length, 1);
+  assert.ok(Math.abs(alpha(fades[0]) - (1 - Math.pow(1 - .018, 3.3))) < 1e-12);
   r.configure({ trail: 'accumulate' }); r.layers.drawing.ctx.calls.length = 0;
   r.step(feature());
   assert.equal(r.layers.drawing.ctx.calls.some(call => call.composite === 'destination-out'), false);
@@ -209,4 +209,15 @@ test('dispose releases layer canvases, is repeatable and prevents further render
 
 test('zero time and a fractional song end use the same shared clock', () => {
   assert.equal(frameCount(0, .11), 0); assert.equal(frameCount(.1, .11), 3); assert.equal(frameCount(.11, .11), 4);
+});
+
+test('fade cadence derives from restored frame and flushes short endings', () => {
+  const r = fixture({ probe: probe([]) }); r.configure({ style: 'probe', trail: 'fade' });
+  for (let i = 0; i < 3; i++) r.step(feature()); const saved = r.snapshot();
+  const fades = () => r.layers.drawing.ctx.calls.filter(call => call.type === 'fill' && call.composite === 'destination-out');
+  assert.equal(fades().length, 0); r.step(feature()); const expected = fades().at(-1);
+  assert.ok(Math.abs(Number(expected.color.match(/,([^,]+)\)$/)[1]) - (1 - Math.pow(.982, 4))) < 1e-12);
+  r.restore(saved); r.layers.drawing.ctx.calls.length = 0; r.step(feature()); assert.deepEqual(fades(), [expected]);
+  r.reset(1, { duration: .01 }); r.layers.drawing.ctx.calls.length = 0; r.step(feature());
+  assert.ok(Math.abs(Number(fades()[0].color.match(/,([^,]+)\)$/)[1]) - (1 - Math.pow(.982, .3))) < 1e-12);
 });

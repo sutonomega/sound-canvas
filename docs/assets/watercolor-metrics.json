@@ -1,0 +1,207 @@
+{
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "fixture": {
+    "sampleRate": 22050,
+    "sectionSeconds": 18,
+    "totalSeconds": 54
+  },
+  "style": "watercolor-1",
+  "theme": "aurora",
+  "strength": 1,
+  "trail": "accumulate",
+  "scenarios": [
+    {
+      "id": "silence",
+      "seconds": [
+        0,
+        18
+      ],
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 0,
+      "whitePixels": 0,
+      "changedPercent": 0,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 0,
+      "mean": {
+        "volume": 0,
+        "bass": 0,
+        "mid": 0,
+        "high": 0,
+        "intensity": 0
+      },
+      "beats": 0
+    },
+    {
+      "id": "calm",
+      "seconds": [
+        18,
+        36
+      ],
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 38599,
+      "whitePixels": 0,
+      "changedPercent": 4.188259548611111,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100,
+      "mean": {
+        "volume": 0.11285419854871236,
+        "bass": 0.06516676620339679,
+        "mid": 0.09206470541805326,
+        "high": 0.001242999262523686,
+        "intensity": 0.1112391153232122
+      },
+      "beats": 0
+    },
+    {
+      "id": "beat",
+      "seconds": [
+        36,
+        54
+      ],
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 101622,
+      "whitePixels": 0,
+      "changedPercent": 11.026692708333332,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100,
+      "mean": {
+        "volume": 0.3411231523102148,
+        "bass": 0.22050507907106298,
+        "mid": 0.19022740930071438,
+        "high": 0.12995068201100302,
+        "intensity": 0.43773814724893634
+      },
+      "beats": 35
+    }
+  ],
+  "bounds": [
+    {
+      "width": 720,
+      "height": 1280,
+      "changedPixels": 266939,
+      "whitePixels": 0,
+      "changedPercent": 28.964735243055557,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "changedPixels": 263772,
+      "whitePixels": 0,
+      "changedPercent": 28.62109375,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    },
+    {
+      "width": 1080,
+      "height": 1080,
+      "changedPixels": 420493,
+      "whitePixels": 0,
+      "changedPercent": 36.050497256515776,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    }
+  ],
+  "analysisVersion": "sc-analysis-2",
+  "trackKey": "pcm-sha256-v1:895f07fc0233527e4853da46809d9bd1c021ccec15bab415b90124b6d4706a2d",
+  "seed": 2304706556,
+  "long": {
+    "seconds": 300,
+    "frames": 9000,
+    "strength": 2,
+    "width": 180,
+    "height": 320,
+    "changedPixels": 28816,
+    "whitePixels": 0,
+    "changedPercent": 50.027777777777786,
+    "whitePercent": 0,
+    "edgeChangedPixels": 0,
+    "chromaticPercent": 100,
+    "elapsedMs": 674,
+    "transientCount": 3
+  },
+  "longSettings": [
+    {
+      "theme": "aurora",
+      "trail": "accumulate",
+      "width": 180,
+      "height": 320,
+      "changedPixels": 28816,
+      "whitePixels": 0,
+      "changedPercent": 50.027777777777786,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    },
+    {
+      "theme": "aurora",
+      "trail": "fade",
+      "width": 180,
+      "height": 320,
+      "changedPixels": 13367,
+      "whitePixels": 0,
+      "changedPercent": 23.20659722222222,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    },
+    {
+      "theme": "ember",
+      "trail": "accumulate",
+      "width": 180,
+      "height": 320,
+      "changedPixels": 28845,
+      "whitePixels": 0,
+      "changedPercent": 50.07812499999999,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    },
+    {
+      "theme": "ember",
+      "trail": "fade",
+      "width": 180,
+      "height": 320,
+      "changedPixels": 13459,
+      "whitePixels": 0,
+      "changedPercent": 23.366319444444443,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    },
+    {
+      "theme": "ocean",
+      "trail": "accumulate",
+      "width": 180,
+      "height": 320,
+      "changedPixels": 28826,
+      "whitePixels": 0,
+      "changedPercent": 50.045138888888886,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    },
+    {
+      "theme": "ocean",
+      "trail": "fade",
+      "width": 180,
+      "height": 320,
+      "changedPixels": 13340,
+      "whitePixels": 0,
+      "changedPercent": 23.15972222222222,
+      "whitePercent": 0,
+      "edgeChangedPixels": 0,
+      "chromaticPercent": 100
+    }
+  ]
+}
