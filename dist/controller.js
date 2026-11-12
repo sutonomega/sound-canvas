@@ -12,6 +12,7 @@ export class StudioController {
   }
 
   get loading() { return this.state === 'loading'; }
+  get canConfigure() { return !this.loading; }
   get restoring() { return this.state === 'restoring'; }
   get target() { return this.audio.buffer ? frameCount(this.audio.time, this.audio.buffer.duration) : 0; }
   get canSave() {
@@ -100,9 +101,19 @@ export class StudioController {
   }
 
   async configure(settings, size) {
-    if (this.loading) return;
+    if (!this.canConfigure) return;
+    const unchanged = Object.entries(settings).every(([key, value]) => Object.hasOwn(this.renderer.settings, key)
+      && this.renderer.settings[key] === value) && (!size || (size[0] === this.renderer.canvas.width && size[1] === this.renderer.canvas.height));
+    if (unchanged) { this.emit(); return; }
     const resume = this.audio.playing || (this.restoring && this.resumeAfterRestore);
-    this.audio.pause(); this.renderer.configure(settings, size);
+    this.audio.pause();
+    try { this.renderer.configure(settings, size); }
+    catch (error) {
+      this.message = error.message || '設定を適用できませんでした。';
+      this.status = '設定を変更できませんでした。前の設定を使います。';
+      if (resume && !this.restoring && this.audio.time < this.audio.buffer.duration) this.audio.play();
+      this.emit(); return;
+    }
     await this.restore(resume);
   }
 
