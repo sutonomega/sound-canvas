@@ -1,0 +1,13 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sound Canvas 曲線表現の比較</title>
+<style>
+body{font:15px system-ui,sans-serif;background:#10151d;color:#e8eef5;margin:28px}button,a{display:inline-block;background:#d5f5a0;color:#172015;padding:12px;border:0;border-radius:6px;margin:4px;text-decoration:none}button:disabled{opacity:.4}#gallery{display:flex;gap:20px;flex-wrap:wrap}figure{margin:10px 0}canvas{width:240px;max-width:100%;height:auto;border:1px solid #333}figcaption{padding:8px 0;color:#d5f5a0}pre{white-space:pre-wrap;max-width:1100px}li{padding:4px}.pass{color:#b5eaa5}.fail{color:#ffaaaa}[hidden]{display:none}
+</style>
+<h1>有機的な曲線：音の違いと長時間描画の確認</h1>
+<p>合成PCM54秒の3区間を、共通の正規化基準・同じシードで各18秒ずつ描きます。音源のアップロードはありません。</p>
+<button id="run">比較画像と検証を生成</button>
+<a id="save-image" hidden download="organic-comparison.png">比較PNGを保存</a>
+<a id="save-report" hidden download="organic-metrics.json">確認データを保存</a>
+<p id="summary" role="status">未実行</p>
+<div id="gallery"></div><ol id="results"></ol><pre id="report"></pre>
+<script type="module" src="organic-browser.js"></script></html>
