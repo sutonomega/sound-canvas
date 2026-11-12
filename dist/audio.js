@@ -1,4 +1,6 @@
-export const FPS = 30;
+import { analyzeAudio, FEATURE_RATE } from './analysis.js';
+
+export const FPS = FEATURE_RATE;
 const yieldTask = () => new Promise(resolve => setTimeout(resolve, 0));
 const check = signal => signal?.throwIfAborted();
 
@@ -6,7 +8,7 @@ export class AudioEngine {
   constructor() {
     this.context = null; this.source = null;
     this.offset = 0; this.started = 0; this.playing = false;
-    this.buffer = null; this.features = []; this.seed = 1;
+    this.buffer = null; this.features = []; this.seed = 1; this.analysis = null;
   }
 
   ensureContext() { return this.context ??= new AudioContext(); }
@@ -92,46 +94,15 @@ export class AudioEngine {
     return this.analyze(buffer, options);
   }
 
-  async analyze(buffer, { signal, onProgress } = {}) {
-    const count = Math.ceil(buffer.duration * FPS), features = [], rate = buffer.sampleRate;
-    const channels = Array.from({ length: buffer.numberOfChannels }, (_, i) => buffer.getChannelData(i));
-    let lo = 0, hi = 0, seed = 2166136261, previous = [0, 0, 0, 0], average = 0, peak = .02;
-    const al = 1 - Math.exp(-2 * Math.PI * 200 / rate);
-    const ah = 1 - Math.exp(-2 * Math.PI * 2400 / rate);
-    check(signal);
-    for (let f = 0; f < count; f++) {
-      let total = 0, low = 0, mid = 0, high = 0;
-      const start = Math.floor(f * rate / FPS);
-      const end = Math.min(buffer.length, Math.floor((f + 1) * rate / FPS));
-      for (let i = start; i < end; i++) {
-        let x = 0;
-        for (const channel of channels) x += channel[i] / channels.length;
-        lo += al * (x - lo); hi += ah * (x - hi);
-        total += x * x; low += lo * lo; mid += (hi - lo) ** 2; high += (x - hi) ** 2;
-        if (i % 101 === 0) seed = Math.imul(seed ^ Math.round(x * 32767), 16777619) >>> 0;
-      }
-      let values = [total, low, mid, high].map(x => Math.sqrt(x / Math.max(1, end - start)));
-      average = average * .96 + values[1] * .04;
-      const beat = values[1] > average * 1.35 && values[1] > .015;
-      values = values.map((x, i) => previous[i] = previous[i] * .55 + x * .45);
-      features.push({ volume: values[0], bass: values[1], mid: values[2], high: values[3], beat });
-      peak = Math.max(peak, values[0]);
-      if (f % 120 === 0) {
-        onProgress?.(`楽曲を解析しています… ${Math.floor(f / count * 100)}%`);
-        await yieldTask(); check(signal);
-      }
-    }
-    for (let i = 0; i < features.length; i++) {
-      for (const key of ['volume', 'bass', 'mid', 'high']) features[i][key] = Math.min(1, features[i][key] / peak);
-      if (i % 10000 === 0) { await yieldTask(); check(signal); }
-    }
-    check(signal);
-    return { buffer, features, seed };
+  async analyze(buffer, options = {}) {
+    const analysis = await analyzeAudio(buffer, options);
+    return { buffer, analysis, features: analysis.frames, seed: analysis.seed };
   }
 
   commit(track) {
     this.pause();
     this.buffer = track.buffer; this.features = track.features; this.seed = track.seed;
+    this.analysis = track.analysis ?? null;
     this.offset = 0;
   }
 

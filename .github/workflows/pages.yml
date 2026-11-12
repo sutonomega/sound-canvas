@@ -26,6 +26,7 @@ jobs:
         run: |
           node --check dist/app.js
           node --check dist/audio.js
+          node --check dist/analysis.js
           node --check dist/controller.js
           node --check dist/renderer.js
       - name: Check playback and operation races

@@ -174,7 +174,9 @@ test('analysis progress permits cancellation without committing a partial result
   const samples = new Float32Array(8000);
   await assert.rejects(audio.analyze({ duration: 1, sampleRate: 8000, length: 8000,
     numberOfChannels: 1, getChannelData: () => samples },
-  { signal: abort.signal, onProgress: () => abort.abort() }), { name: 'AbortError' });
+  { signal: abort.signal, onProgress: text => {
+    if (text.startsWith('楽曲を解析しています')) abort.abort();
+  } }), { name: 'AbortError' });
   assert.equal(audio.seed, 9);
 });
 
