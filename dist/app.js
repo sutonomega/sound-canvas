@@ -19,6 +19,11 @@ function updateUI() {
   $('png').disabled = !studio.canSave;
   settingsPanel.update(renderer, { locked: !studio.canConfigure, restoring: studio.restoring });
   $('cancel-load').hidden = !studio.loading;
+  $('restore-progress').hidden = !studio.restoring;
+  if (studio.progress) {
+    $('restore-meter').value = studio.progress.percent;
+    text('restore-detail', `${format(studio.progress.targetTime)}へ移動中 · ${studio.progress.percent}%`);
+  }
   $('drop').setAttribute('aria-busy', String(studio.loading));
   text('filename', studio.name || '楽曲をドロップ / 選択');
   text('message', studio.message); text('status', studio.status);
@@ -50,6 +55,7 @@ drop.ondragleave = () => drop.classList.remove('over');
 drop.ondrop = event => { event.preventDefault(); drop.classList.remove('over'); loadFile(event.dataTransfer.files[0]); };
 $('play').onclick = () => studio.togglePlay();
 $('restart').onclick = () => studio.restart();
+$('cancel-restore').onclick = () => studio.cancelRestore();
 $('seek').onpointerdown = () => { scrubbing = true; };
 window.addEventListener('pointerup', () => { scrubbing = false; });
 $('seek').onpointercancel = $('seek').onblur = () => { scrubbing = false; };

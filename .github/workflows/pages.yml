@@ -29,6 +29,7 @@ jobs:
           node --check dist/audio.js
           node --check dist/analysis.js
           node --check dist/controller.js
+          node --check dist/checkpoints.js
           node --check dist/renderer.js
           node --check dist/timing.js
           node --check dist/themes.js

@@ -18,7 +18,7 @@ function fixture(size) {
     createBufferSource: () => ({ connect() {}, disconnect() {}, start() {}, stop() {} }) };
   const renderer = create(size), reference = create(size);
   const studio = new StudioController(audio, renderer, () => {}, async () => {});
-  return { audio, renderer, reference, studio, dispose() { renderer.dispose(); reference.dispose(); } };
+  return { audio, renderer, reference, studio, dispose() { studio.cache.clear(); renderer.dispose(); reference.dispose(); } };
 }
 let urls = [];
 $('run').onclick = async () => {
