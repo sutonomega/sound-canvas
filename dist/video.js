@@ -25,7 +25,7 @@ export class VideoExporter {
     this.support = recordingSupport(this.renderer.canvas, this.audio, env);
   }
   get busy() { return !!this.job; }
-  get canStart() { return !this.disposed && this.support.supported && !this.busy && !!this.audio.buffer && !this.studio.loading && !this.studio.restoring && !this.studio.starting; }
+  get canStart() { return !this.disposed && this.support.supported && !this.busy && !this.studio.exporting && !!this.audio.buffer && !this.studio.loading && !this.studio.restoring && !this.studio.starting; }
   emit() { this.notify(this); }
   clearResult() { if (this.url) this.env.revokeURL(this.url); this.url = null; this.blob = null; this.info = null; }
   active(job) { return this.job === job && !job.finishing && !this.disposed; }
