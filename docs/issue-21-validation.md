@@ -35,3 +35,9 @@ CI用PRのdev統合後、版表記と公開文書を整えてdev→mainの公開
 - 公開直前のmainは`1fe36c0d05860d5edcd5443cb2643fff2d2ea241`。公開用PRの復旧先として記録する。
 
 この段階では版表記更新のdev宛PRと、dev→mainの公開用下書きPRを分ける。公開用PRは版表記のdev統合後、最新SHA・CI・差分を再確認してからレビュー可能へ変更する。公開後の操作・保存、正式タグとReleaseは未実施。公開前のフッター変更のみのため、既存の実音源・ブラウザ操作の全件再検証は行っていない。
+
+## 公開後の完了確認
+
+PR #42のdev統合とPR #43のmain統合を確認。main `379616b`の[共通CI・Pages](https://github.com/sutonomega/sound-canvas/actions/runs/43314211660)が成功し、公開URLで制作・実保存を確認した。[公開記録](v1.0-release.md)と[匿名測定値](assets/public-release-metrics.json)に結果・範囲を記録。v1.0.0タグが確認済みSHAを指し、正式Releaseが公開済みであることも確認した。#21とM4の完了条件を満たす。
+
+公開PRの統合時に削除されたdevブランチは、公開mainと同じSHAで復元した。本追記は文書のみのdev宛PRとし、タグの参照先・アプリを変更しない。ブラウザ操作中のエラーはfaviconの404のみで、主要フローの失敗は確認していない。
