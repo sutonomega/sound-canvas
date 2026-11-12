@@ -113,9 +113,9 @@ $('run').onclick = async () => {
       const stats = metrics(r.canvas, background);
       report.long = { seconds: 300, frames: 9000, strength: 2, ...stats, elapsedMs: Math.round(performance.now() - started) };
       assert(stats.whitePercent < .1, '5分で白飛び'); assert(stats.edgeChangedPixels === 0, '5分で外周に描画');
-      const transient = r.style.snapshot().pulses ?? r.style.snapshot().rings;
+      const transient = r.style.snapshot().pulses ?? r.style.snapshot().rings ?? r.style.snapshot().particles;
       report.long.transientCount = transient.length;
-      assert(transient.length <= 64, '演出が増え続ける');
+      assert(transient.length <= definition.maxTransient, '演出が増え続ける');
       r.restore(saved); await render(r, 8970, 9000, organicStress); equal(image(r.canvas), expected);
       assert(JSON.stringify(r.style.snapshot()) === state, '曲末復元後の状態差'); r.dispose();
     });
