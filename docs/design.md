@@ -1,6 +1,6 @@
 # Sound Canvas：v1.0設計
 
-対応Issue: [#3](https://github.com/sutonomega/sound-canvas/issues/3)。[仕様書](spec.md)を実装するための目標設計。0.1の実装は `dist/audio.js`、`dist/renderer.js`、`dist/app.js` に集約されており、下記への移行はM2/M3で行う。
+対応Issue: [#3](https://github.com/sutonomega/sound-canvas/issues/3)。[仕様書](spec.md)を実装するための目標設計。0.1では実装を少数のモジュールに集約していた。devではM2/M3で下記の分離構成へ移行済みで、各節に実装上の契約と検証記録を記載する。開発・公開の操作は[開発ガイド](development-and-release.md)を参照。
 
 ## 構成と依存方向
 
