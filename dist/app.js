@@ -1,14 +1,81 @@
-import {AudioEngine,FPS} from './audio.js';import {Renderer} from './renderer.js';
-const $=id=>document.getElementById(id),audio=new AudioEngine(),renderer=new Renderer($('canvas'));let busy=false,rebuilding=false,revision=0,loadRevision=0;
-const fmt=t=>`${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;
-function controls(){for(const id of ['play','restart','seek','png'])$(id).disabled=busy||!audio.buffer;for(const id of ['theme','strength','trail'])$(id).disabled=busy;document.querySelectorAll('[data-ratio]').forEach(b=>b.disabled=busy);$('demo').disabled=busy;}
-async function rebuild(){if(!audio.buffer)return;const token=++revision,target=Math.floor(audio.time*FPS),was=audio.playing;audio.pause();rebuilding=true;renderer.reset(audio.seed);$('status').textContent='軌跡を復元しています…';for(let i=0;i<target;i++){if(token!==revision)return;renderer.step(audio.feature(i));if(i%240===0)await new Promise(r=>setTimeout(r,0));}if(token!==revision)return;rebuilding=false;if(was)audio.play();$('status').textContent='同じ曲・同じ設定から生まれる、同じ軌跡';}
-async function load(file,demo=false){if(busy)return;busy=true;loadRevision++;revision++;rebuilding=false;audio.pause();controls();$('message').textContent='楽曲を解析しています…';$('status').textContent='音の特徴を読み取り中';try{if(demo)await audio.demo();else{if(!/\.(mp3|wav)$/i.test(file.name))throw Error('MP3またはWAVファイルを選んでください。');await audio.load(await file.arrayBuffer());}$('filename').textContent=demo?'First Light — デモ音源':file.name;$('duration').textContent=fmt(audio.buffer.duration);$('seek').max=audio.buffer.duration;$('seek').value=0;$('empty').hidden=true;renderer.reset(audio.seed);$('message').textContent=`解析完了 · ${fmt(audio.buffer.duration)} · 端末外へのアップロードなし`;$('status').textContent='再生すると、あなたの音楽が描きはじめます';}catch(e){$('message').textContent=e.message||'読み込みに失敗しました。別の音源をお試しください。';$('status').textContent=audio.buffer?'前の楽曲を再生できます':'MP3・WAVを選択してください';}finally{busy=false;controls();}}
-$('file').onchange=e=>{if(e.target.files[0])load(e.target.files[0]);e.target.value='';};$('demo').onclick=()=>load(null,true);const drop=$('drop');drop.ondragover=e=>{e.preventDefault();drop.classList.add('over');};drop.ondragleave=()=>drop.classList.remove('over');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');if(e.dataTransfer.files[0])load(e.dataTransfer.files[0]);};
-$('play').onclick=async()=>{if(rebuilding)return;await audio.init();if(audio.playing)audio.pause();else{if(audio.time>=audio.buffer.duration){audio.offset=0;renderer.reset(audio.seed);}audio.play();}};$('restart').onclick=()=>{audio.pause();audio.offset=0;revision++;rebuilding=false;renderer.reset(audio.seed);};$('seek').onchange=()=>{audio.seek(Number($('seek').value));rebuild();};
-for(const id of ['theme','trail','strength'])$(id).onchange=()=>{renderer.settings[id]=id==='strength'?Number($(id).value)/100:$(id).value;$('strength-value').value=$('strength').value+'%';rebuild();};$('strength').oninput=()=>{$('strength-value').value=$('strength').value+'%';};
-document.querySelectorAll('[data-ratio]').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('[data-ratio]').forEach(x=>x.classList.toggle('selected',x===btn));const [w,h]={portrait:[720,1280],landscape:[1280,720],square:[1080,1080]}[btn.dataset.ratio];$('canvas').width=w;$('canvas').height=h;$('dimensions').textContent=`${w} × ${h}`;renderer.reset(audio.seed);rebuild();});
-$('png').onclick=()=>{if(rebuilding)return;$('canvas').toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='sound-canvas.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);});};
-function tick(){if(audio.buffer&&!busy&&!rebuilding){const target=Math.floor(audio.time*FPS);for(let i=0;i<90&&renderer.frame<target;i++)renderer.step(audio.feature(renderer.frame));$('time').textContent=fmt(audio.time);if(document.activeElement!==$('seek'))$('seek').value=audio.time;$('play').textContent=audio.playing?'Ⅱ':'▶';$('play').setAttribute('aria-label',audio.playing?'一時停止':'再生');if(audio.time>=audio.buffer.duration)$('status').textContent='一曲のアートが完成しました。PNGで保存できます。';}requestAnimationFrame(tick);}tick();
-// An illustrative initial canvas; replaced by the actual song at load time.
-for(let i=0;i<1150;i++)renderer.step({volume:.6,bass:.4,mid:.5,high:.3,beat:i%16===0});
+import { AudioEngine } from './audio.js';
+import { Renderer } from './renderer.js';
+import { StudioController } from './controller.js';
+
+const $ = id => document.getElementById(id);
+const audio = new AudioEngine(), renderer = new Renderer($('canvas'));
+const studio = new StudioController(audio, renderer, updateUI);
+const format = time => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, '0')}`;
+const text = (id, value) => { if ($(id).textContent !== value) $(id).textContent = value; };
+let scrubbing = false;
+
+function updateUI() {
+  const hasTrack = !!audio.buffer;
+  $('play').disabled = !hasTrack || studio.loading || studio.restoring || studio.starting;
+  $('restart').disabled = !hasTrack || studio.loading;
+  $('seek').disabled = !hasTrack || studio.loading;
+  $('png').disabled = !studio.canSave;
+  for (const id of ['theme', 'strength', 'trail']) $(id).disabled = studio.loading;
+  document.querySelectorAll('[data-ratio]').forEach(button => button.disabled = studio.loading);
+  $('cancel-load').hidden = !studio.loading;
+  $('drop').setAttribute('aria-busy', String(studio.loading));
+  text('filename', studio.name || '楽曲をドロップ / 選択');
+  text('message', studio.message); text('status', studio.status);
+  $('empty').hidden = hasTrack;
+  text('duration', format(audio.buffer?.duration ?? 0));
+  text('time', format(audio.time));
+  $('seek').max = audio.buffer?.duration ?? 1;
+  if (!scrubbing) $('seek').value = audio.time;
+  text('play', audio.playing ? 'Ⅱ' : '▶');
+  $('play').setAttribute('aria-label', audio.playing ? '一時停止' : '再生');
+}
+
+function loadFile(file) {
+  if (!file) return;
+  return studio.load(async options => {
+    if (!/\.(mp3|wav)$/i.test(file.name)) throw new Error('MP3またはWAVファイルを選んでください。');
+    const bytes = await file.arrayBuffer();
+    options.signal.throwIfAborted();
+    return audio.prepare(bytes, options);
+  }, file.name);
+}
+
+$('file').onchange = event => { loadFile(event.target.files[0]); event.target.value = ''; };
+$('demo').onclick = () => studio.load(options => audio.prepareDemo(options), 'First Light — デモ音源');
+$('cancel-load').onclick = () => studio.cancelLoad();
+const drop = $('drop');
+drop.ondragover = event => { event.preventDefault(); drop.classList.add('over'); };
+drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = event => { event.preventDefault(); drop.classList.remove('over'); loadFile(event.dataTransfer.files[0]); };
+$('play').onclick = () => studio.togglePlay();
+$('restart').onclick = () => studio.restart();
+$('seek').onpointerdown = () => { scrubbing = true; };
+window.addEventListener('pointerup', () => { scrubbing = false; });
+$('seek').onpointercancel = $('seek').onblur = () => { scrubbing = false; };
+$('seek').onchange = () => { scrubbing = false; studio.seek(Number($('seek').value)); };
+for (const id of ['theme', 'trail', 'strength']) {
+  $(id).onchange = () => {
+    $('strength-value').value = $('strength').value + '%';
+    studio.configure({ [id]: id === 'strength' ? Number($(id).value) / 100 : $(id).value });
+  };
+}
+$('strength').oninput = () => { $('strength-value').value = $('strength').value + '%'; };
+document.querySelectorAll('[data-ratio]').forEach(button => button.onclick = () => {
+  document.querySelectorAll('[data-ratio]').forEach(other => other.classList.toggle('selected', other === button));
+  const size = { portrait: [720, 1280], landscape: [1280, 720], square: [1080, 1080] }[button.dataset.ratio];
+  $('dimensions').textContent = `${size[0]} × ${size[1]}`; studio.configure({}, size);
+});
+$('png').onclick = () => {
+  if (!studio.canSave) return;
+  $('canvas').toBlob(blob => {
+    if (!blob) { studio.status = 'PNGを作成できませんでした。もう一度お試しください。'; updateUI(); return; }
+    const url = URL.createObjectURL(blob), link = document.createElement('a');
+    link.href = url; link.download = 'sound-canvas.png'; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  });
+};
+
+// Illustrative initial canvas; replaced by the actual song after loading.
+for (let i = 0; i < 1150; i++) renderer.step({ volume: .6, bass: .4, mid: .5, high: .3, beat: i % 16 === 0 });
+function tick() { studio.tick(); updateUI(); requestAnimationFrame(tick); }
+tick();
